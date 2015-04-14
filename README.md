@@ -7,3 +7,5 @@ used for single-end data.
 Optimized for use on Katak at IBIS.
 
 Put raw fastq.gz single-end data into the 02_raw_data folder
+
+And run jobs from the main directory SE-reads_assemble-to-counts/
