@@ -5,3 +5,5 @@ This repo is a variant of: https://github.com/enormandeau/trinity_pipeline_ibis
 used for single-end data.
 
 Optimized for use on Katak at IBIS.
+
+Put raw fastq.gz single-end data into the 02_raw_data folder
