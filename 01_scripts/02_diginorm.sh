@@ -47,4 +47,4 @@ gzip $NORMALIZED_FOLDER/*.fq
 
 # Concatenate all files for Trinity
 echo "Concatenating all normalized files for Trinity"
-cat $NORMALIZED_FOLDER/*.fq.gz > $NORMALIZED_FOLDER/five_libs_for_trinity.fq.gz
+cat $NORMALIZED_FOLDER/*.fq.gz > $NORMALIZED_FOLDER/norm_libs_for_trinity.fq.gz
