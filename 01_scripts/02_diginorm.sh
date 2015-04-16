@@ -6,7 +6,7 @@ TRIMMED_FOLDER="03_trimmed"
 NORMALIZED_FOLDER="04_normalized"
 NORMALIZE_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/util/insilico_read_normalization.pl"
 
-# In sillico normalization
+# In silico normalization
 rm -r $NORMALIZED_FOLDER/normalized_reads 2> /dev/null
 
 ls -1 $TRIMMED_FOLDER/*trimmed.fastq.gz | \
