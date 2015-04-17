@@ -1,0 +1,4 @@
+@RG	ID:lib01	SM:lib01	PL:Illumina
+@RG	ID:lib02	SM:lib02	PL:Illumina
+@RG	ID:lib101a	SM:lib101a	PL:Illumina
+@RG	ID:lib102a	SM:lib102a	PL:Illumina
