@@ -3,7 +3,7 @@
 # then use mpileup to generate .vcf
 
 #Create a shell variable to store the location of our reference transcriptome
-REFERENCE=/project/lbernatchez/drobo/users/bensuth/03_RNASeq/SE-reads_assemble-to-counts/05_trinity_output/Trinity.fasta
+REFERENCE=./05_trinity_output/Trinity.fasta
 
 #index reference transcriptome
 samtools faidx $REFERENCE.fai
