@@ -24,7 +24,7 @@ java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalys
 
 #  Run realigner over intervals:
 
-java -Xmx75g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \ 
+java -Xmx75g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
   -I ./08_callSNPs/merged.bam \
   -R $REFERENCE \
   -T IndelRealigner \
