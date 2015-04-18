@@ -4,7 +4,7 @@
 
 REFERENCE=./05_trinity_output/Trinity.fasta
 
-#Identify regions in need of realignment:
+# Identify regions in need of realignment:
 
 java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
   -T RealignerTargetCreator \
