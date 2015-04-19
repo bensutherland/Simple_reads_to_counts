@@ -6,7 +6,7 @@ REFERENCE=./05_trinity_output/Trinity.fasta
 	
 java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
 	-R $REFERENCE -T UnifiedGenotyper \
-	-I merged_realigned.bam -o rawSNPS_Q30.vcf \
+	-I ./08_callSNPs/merged_realigned.bam -o ./08_callSNPs/rawSNPS_Q30.vcf \
 	-gt_mode DISCOVERY \
 	-stand_call_conf 30 -stand_emit_conf 10
 	
@@ -24,16 +24,16 @@ java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalys
   -T VariantAnnotator \
   -l INFO \
   -R $REFERENCE \
-  -I merged_realigned.bam \
-  -o rawSNPS_Q30_annotated.vcf \
-  -B:variant,VCF rawSNPS_Q30.vcf \
+  -I ./08_callSNPs/merged_realigned.bam \
+  -o ./08_callSNPs/rawSNPS_Q30_annotated.vcf \
+  -B:variant,VCF ./08_callSNPs/rawSNPS_Q30.vcf \
   --useAllAnnotations
 
 #Calling InDels (needed for filtering around InDels):
 
 java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
 	-R $REFERENCE -T UnifiedGenotyper \
-	-I merged_realigned.bam -o InDels_Q30.vcf \
+	-I ./08_callSNPs/merged_realigned.bam -o ./08_callSNPs/InDels_Q30.vcf \
 	-gt_mode DISCOVERY \
 	-glm INDEL \
 	-stand_call_conf 30 -stand_emit_conf 10
@@ -43,17 +43,17 @@ java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalys
 java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
   -T VariantFiltration \
   -R $REFERENCE \
-  -B:mask,VCF InDels_Q30.vcf \
-  -B:variant,VCF rawSNPS_Q30_annotated.vcf \
-  -o Indel_filtered_Q30.vcf
+  -B:mask,VCF ./08_callSNPs/InDels_Q30.vcf \
+  -B:variant,VCF ./08_callSNPs/rawSNPS_Q30_annotated.vcf \
+  -o ./08_callSNPs/Indel_filtered_Q30.vcf
   
 #Additional filtering:
 
 java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
   -T VariantFiltration \
   -R $REFERENCE \
-  -B:variant,VCF Indel_filtered_Q30.vcf \
-  -o analysis_ready_Q30.vcf \
+  -B:variant,VCF ./08_callSNPs/Indel_filtered_Q30.vcf \
+  -o ./08_callSNPs/analysis_ready_Q30.vcf \
   --clusterWindowSize 10 \
   --filterExpression "MQ0 >= 4 && ((MQ0 / (1.0 * DP)) > 0.1)" \
   --filterName "HARD_TO_VALIDATE" \
@@ -66,4 +66,4 @@ java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalys
    
 #Finally, to save only the header and all SNPS that have passed all the filters in a new file that can be used as a truth training set for the VQSR:  
 
-cat analysis_ready_Q30.vcf | grep 'PASS\|^#' > highQualSNPS.vcf
+cat ./08_callSNPs/analysis_ready_Q30.vcf | grep 'PASS\|^#' > ./08_callSNPs/highQualSNPS.vcf
