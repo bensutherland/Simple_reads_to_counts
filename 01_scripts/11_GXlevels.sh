@@ -7,11 +7,11 @@ COUNT_FOLDER="09_GXlevels"
 
 #convert sorted .bam back to .sam
 ls -1 $MAPPED_FOLDER/*fastq.gz.bam | \
-    sort -u | \ 
+    sort -u | 
     while read i
     do
         echo $i
 	samtools view -h "$i" > "$i".sam
     done
 
-mv $MAPPED_FOLDER/*_counts.txt $COUNT_FOLDER/
+# mv $MAPPED_FOLDER/*_counts.txt $COUNT_FOLDER/
