@@ -35,7 +35,7 @@ Put raw *fastq.gz single-end data in 02_raw_data
 Run all jobs from the main directory  
 Job files are specific to Katak at IBIS, but with some minor editing can be adapted for other servers  
 
-# Trim for quality
+# 1. Trim for quality
 Generates a fastq file for each library  
 requires `Trimmomatic`
 
@@ -50,8 +50,8 @@ Run on Katak:
 qsub 01_scripts/jobs/01_trimming_job.sh
 ```
 
-# Normalize library/libraries to be used for reference transcriptome assembly by coverage
-Uses libraries put in 03_trimmed
+# 2. Normalize library/libraries for **de novo** transcriptome assembly
+Uses libraries in 03_trimmed
 requires `insilico_read_normalization.pl`  
 
 Edit 01_scripts/02_diginorm.sh by giving path to `insilico_read_normalization.pl`
@@ -68,7 +68,7 @@ qsub 01_scripts/jobs/02_diginorm_job.sh
 
 *Tip*: that often the more different individuals included in the assembly, the more contigs are produced. This may be due to alleles dividing the contigs. For this reason, it is suggested to not use all of the individuals for **de novo** assembly, but rather representatives from each condition with the deepest sequencing.
 
-# Assemble **de novo** transcriptome
+# 3. Assemble **de novo** transcriptome
 Uses normalized libraries in '04_normalized'
 requires `Trinity`  
 
@@ -84,7 +84,7 @@ On Katak:
 qsub 01_scripts/jobs/03_trinity_job.sh
 ```
 
-# index reference with bwa
+# 4. index reference with bwa
 Note: only need to do this once  
 requires `bwa`  
 
@@ -99,7 +99,7 @@ On Katak:
 qsub 01_scripts/jobs/03a_indexRef_job.sh
 ```
 
-# align individual samples against reference
+# 5. align individual samples against reference
 
 requires `bwa` and `samtools`
 
@@ -119,8 +119,7 @@ On Katak:
 qsub 01_scripts/jobs/04_BWAaln_job.sh
 ```
 
-#####
-# convert sorted .bam back to .sam (now sorted)
+# 6. convert sorted .bam back to .sam (now sorted)
 requires `samtools`
 
 Locally:
@@ -133,7 +132,7 @@ On Katak:
 qsub 01_scripts/jobs/11_GXlevels_job.sh
 ```
 
-# obtain counts for each contig for each individual
+# 7. obtain counts for each contig for each individual
 
 requires `gmod_fasta2gff3.pl` and `htseq-count`
 
@@ -150,3 +149,8 @@ On Katak:
 ```
 qsub 01_scripts/jobs/11b_GXlevels-HTseq_job.sh
 ```
+
+The output of the HT-seq script should be ready for input into your preferred analysis pipeline.
+
+Endnotes:
+You can use the alignment .bam files from step (5) to identify SNPs in your transcripts by following <**new pipeline in development**>
