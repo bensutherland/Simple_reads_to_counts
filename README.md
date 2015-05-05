@@ -15,9 +15,10 @@ and the Simple Fools Guide from the Palumbi lab: http://sfg.stanford.edu/guide.h
 Quality trim single-end data and remove adapters, generate reference transcriptome, map reads to reference transcriptome
 ## Overview:
   1) Trim for quality and remove adapters  
-  2) Digital normalize libraries to be used for assembly, use to assemble *de novo* reference  
-  3) Align each sample short reads to *de novo* reference  
-  4) Obtain expression level raw counts for each contig in reference  
+  2) Digital normalize libraries to be used for *de novo* reference transcriptome  
+  3) Assemble *de novo* reference transcriptome  
+  4+5) Align quality-trimmed sample files against reference  
+  6+7) Obtain expression level raw counts for each contig in reference  
 Subsequently, the alignment files can be used in companion pipeline *to be named* for SNP discovery,  
 or the expression level data can be imported into differential expression analysis software.  
 
