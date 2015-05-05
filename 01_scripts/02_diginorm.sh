@@ -6,10 +6,16 @@ TRIMMED_FOLDER="03_trimmed"
 NORMALIZED_FOLDER="04_normalized"
 NORMALIZE_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/util/insilico_read_normalization.pl"
 
-# In silico normalization
-rm -r $NORMALIZED_FOLDER/normalized_reads 2> /dev/null
+# Identify files to be used for assembly
+SAMPLES[1]="HI.2494.001.Index_2.lib01_R1_trimmed.fastq.gz"
+SAMPLES[2]="HI.2494.001.Index_4.lib02_R1_trimmed.fastq.gz"
 
-ls -1 $TRIMMED_FOLDER/*trimmed.fastq.gz | \
+# Copy samples of interest to normalized folder
+rm -r $NORMALIZED_FOLDER/normalized_reads 2> /dev/null
+cp -l $TRIMMED_FOLDER/$SAMPLES $NORMALIZED_FOLDER/
+
+# Digital normalization of samples of interest
+ls -1 $NORMALIZED_FOLDER/*trimmed.fastq.gz | \
         perl -pe 's/\.gz//' | \
     sort -u | \
     while read i
