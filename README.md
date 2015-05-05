@@ -1,4 +1,4 @@
-**note: pipeline currently in development**
+*note: pipeline currently in development*
 
 SE-reads_assemble-to-counts  
 Version 0.1  
