@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N bwa 
-#$ -M bensutherland7@gmail.com
+#$ -M $MY_EMAIL_ADDRESS
 #$ -m beas
 #$ -pe smp 10
 #$ -l h_vmem=100G

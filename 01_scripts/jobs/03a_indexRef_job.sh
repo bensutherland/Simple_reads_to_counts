@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N trim
-#$ -M bensutherland7@gmail.com 
+#$ -M $MY_EMAIL_ADDRESS
 #$ -m beas
 #$ -pe smp 2
 #$ -l h_vmem=20G

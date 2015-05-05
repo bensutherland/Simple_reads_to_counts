@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N samtools
-#$ -M bensutherland7@gmail.com
+#$ -M $MY_EMAIL_ADDRESS
 #$ -m beas
 #$ -pe smp 3
 #$ -l h_vmem=100G
