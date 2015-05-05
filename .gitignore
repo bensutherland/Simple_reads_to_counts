@@ -18,3 +18,7 @@
 *.bam
 *.bam.bai
 z-*
+*fastq*
+*fasta*
+*vcf*
+*.gff3
