@@ -14,11 +14,11 @@ and the Simple Fools Guide from the Palumbi lab: http://sfg.stanford.edu/guide.h
 # SE-reads_assemble-to-counts
 Quality trim single-end data and remove adapters, generate reference transcriptome, map reads to reference transcriptome
 ## Overview:
-  A) Trim for quality and remove adapters  
-  B) Digital normalize libraries to be used for *de novo* reference transcriptome  
-  C) Assemble *de novo* reference transcriptome  
-  D+E) Align quality-trimmed sample files against reference  
-  F) Obtain expression level raw counts for each contig in reference  
+  a) Trim for quality and remove adapters  
+  b) Digital normalize libraries to be used for *de novo* reference transcriptome  
+  c) Assemble *de novo* reference transcriptome  
+  d,e) Align quality-trimmed sample files against reference  
+  f) Obtain expression level raw counts for each contig in reference  
 Subsequently, the alignment files can be used in companion pipeline *to be named* for SNP discovery,  
 or the expression level data can be imported into differential expression analysis software.  
 
@@ -36,7 +36,7 @@ Put raw *fastq.gz single-end data in 02_raw_data
 Run all jobs from the main directory  
 Job files are specific to Katak at IBIS, but with some minor editing can be adapted for other servers  
 
-# A) Trim for quality
+# a) Trim for quality
 Generates a fastq file for each library  
 requires `Trimmomatic`
 
@@ -51,7 +51,7 @@ Run on Katak:
 qsub 01_scripts/jobs/01_trimming_job.sh
 ```
 
-# B) Normalization
+# b) Normalization
 This step normalizes only those libraries to be used for **de novo** transcriptome assembly  
 Edit 01_scripts/02_diginorm.sh by giving path to `insilico_read_normalization.pl` and providing the names of the samples to be used for the assembly, by sample1="your.sample", sample2="your.second.sample" ... etc.  
 Samples to be used for normalization will be moved to `04_normalized`, digital normalized, compressed, and concatenated to norm_libs_for_trinity.fq.gz   
@@ -69,7 +69,7 @@ qsub 01_scripts/jobs/02_diginorm_job.sh
 
 *Tip*: that often the more different individuals included in the assembly, the more contigs are produced. This may be due to alleles dividing the contigs. For this reason, it is suggested to not use all of the individuals for **de novo** assembly, but rather representatives from each condition with the deepest sequencing.
 
-# C) Assemble **de novo** transcriptome
+# c) Assemble **de novo** transcriptome
 Uses normalized libraries in '04_normalized'
 requires `Trinity`  
 
@@ -87,7 +87,7 @@ qsub 01_scripts/jobs/03_trinity_job.sh
 
 This will result in a file called *Trinity.fasta* in your 05_trinity_output folder.
 
-# D) index reference with bwa
+# d) index reference with bwa
 Note: only need to do this once  
 requires `bwa`  
 
@@ -102,7 +102,7 @@ On Katak:
 qsub 01_scripts/jobs/03a_indexRef_job.sh
 ```
 
-# E) align individual samples against reference
+# e) align individual samples against reference
 
 requires `bwa` and `samtools`
 
@@ -122,7 +122,7 @@ On Katak:
 qsub 01_scripts/jobs/04_BWAaln_job.sh
 ```
 
-# F) obtain counts for each contig for each individual
+# f) obtain counts for each contig for each individual
 
 requires `gmod_fasta2gff3.pl` and `htseq-count`
 
