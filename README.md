@@ -17,8 +17,8 @@ Quality trim single-end data and remove adapters, generate reference transcripto
   a) Trim for quality and remove adapters  
   b) Digital normalize libraries to be used for *de novo* reference transcriptome  
   c) Assemble *de novo* reference transcriptome  
-  d,e) Align quality-trimmed sample files against reference  
-  f) Obtain expression level raw counts for each contig in reference  
+  d) Align quality-trimmed sample files against reference  
+  e) Obtain expression level raw counts for each contig in reference  
 Subsequently, the alignment files can be used in companion pipeline *to be named* for SNP discovery,  
 or the expression level data can be imported into differential expression analysis software.  
 
@@ -87,7 +87,7 @@ qsub 01_scripts/jobs/03_trinity_job.sh
 
 This will result in a file called *Trinity.fasta* in your 05_trinity_output folder.
 
-# d) index reference with bwa
+### mini-step: index reference with bwa
 Note: only need to do this once  
 requires `bwa`  
 
@@ -102,7 +102,7 @@ On Katak:
 qsub 01_scripts/jobs/03a_indexRef_job.sh
 ```
 
-# e) align individual samples against reference
+# d) align individual samples against reference
 
 requires `bwa` and `samtools`
 
@@ -122,7 +122,7 @@ On Katak:
 qsub 01_scripts/jobs/04_BWAaln_job.sh
 ```
 
-# f) obtain counts for each contig for each individual
+# e) obtain counts for each contig for each individual
 
 requires `gmod_fasta2gff3.pl` and `htseq-count`
 
