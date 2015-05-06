@@ -1,18 +1,22 @@
 #!/bin/bash
 # Normalizing by coverage with 'normalize_by_kmer_coverage.pl'
 
+#### FIRST SET THE FILES YOU WANT TO USE FOR ASSEMBLY OF REFERENCE ###
+sample1="example1"
+sample2="example2"
+sample3="example3"
+# and as many as necessary
+
+# point to insilico_read_normalization.pl
+NORMALIZE_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/util/insilico_read_normalization.pl"
+
 # Global variables
 TRIMMED_FOLDER="03_trimmed"
 NORMALIZED_FOLDER="04_normalized"
-NORMALIZE_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/util/insilico_read_normalization.pl"
-
-# Identify files to be used for assembly
-SAMPLES[1]="HI.2494.001.Index_2.lib01_R1_trimmed.fastq.gz"
-SAMPLES[2]="HI.2494.001.Index_4.lib02_R1_trimmed.fastq.gz"
 
 # Copy samples of interest to normalized folder
-rm -r $NORMALIZED_FOLDER/normalized_reads 2> /dev/null
-cp -l $TRIMMED_FOLDER/$SAMPLES $NORMALIZED_FOLDER/
+# rm -r $NORMALIZED_FOLDER/normalized_reads 2> /dev/null
+cp -l $TRIMMED_FOLDER/$sample1 $TRIMMED_FOLDER/$sample2 $NORMALIZED_FOLDER/
 
 # Digital normalization of samples of interest
 ls -1 $NORMALIZED_FOLDER/*trimmed.fastq.gz | \
