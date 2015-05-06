@@ -19,6 +19,5 @@ Trinity.fasta
 *.bam.bai
 z-*
 *fastq*
-*fasta*
 *vcf*
 *.gff3
