@@ -28,7 +28,6 @@ do
     samtools view -Sb ${sample}.sam > ${sample}.unsorted.bam  #-S = input sam -b = output bam
     samtools sort ${sample}.unsorted.bam ${sample}
     samtools index ${sample}.bam
-    # htseq-count --format=bam --stranded=no --type=CDS --order=pos --idattr=Name ${sample}.bam Trinity_all_X.gff3 > ${sample}_htseq_counts.txt
 done
 
 mv ./06_trimmed_for_mapping/*.bam ./07_mapped/
