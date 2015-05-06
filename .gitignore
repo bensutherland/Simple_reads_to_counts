@@ -1,6 +1,6 @@
 *.fa
 *.fas
-*.fasta
+Trinity.fasta
 *.finished
 *.fq
 *.fq.gz

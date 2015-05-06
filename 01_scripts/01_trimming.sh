@@ -10,7 +10,7 @@ TRIMMOMATIC_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/trinity-plugins/
 
 # Filtering and trimming data with trimmomatic
 ls -1 $RAW_FOLDER/*.fastq.gz | \
-    sort -u | \ 
+    sort -u |
     while read i
     do
         echo $i
