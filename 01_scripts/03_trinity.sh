@@ -25,10 +25,8 @@ $ASSEMBLER \
     --min_contig_length 200 \
     --min_kmer_cov 1 \
     --output $ASSEMBLY_FOLDER
-    #--no_run_quantifygraph \
-    #--no_run_chrysalis \
 
 # Get scaffolds and cleanup space (optional)
-mv $ASSEMBLY_FOLDER/Trinity.fasta .
-rm -r $ASSEMBLY_FOLDER/* 2> /dev/null
-mv Trinity.fasta $ASSEMBLY_FOLDER
+# mv $ASSEMBLY_FOLDER/Trinity.fasta .
+# rm -r $ASSEMBLY_FOLDER/* 2> /dev/null
+# mv Trinity.fasta $ASSEMBLY_FOLDER
