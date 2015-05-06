@@ -1,6 +1,6 @@
 #!/bin/bash
-# Cleaning and trimming fastq.gz read files with trimmomatic
-# if not running on Katak change the TRIMMOMATIC_PROGRAM to the full path to the trimmomatic.jar
+# Cleaning and trimming fastq.gz read files with Trimmomatic
+# point to the trimmomatic.jar in Global variables
 
 # Global variables
 RAW_FOLDER="02_raw_data"

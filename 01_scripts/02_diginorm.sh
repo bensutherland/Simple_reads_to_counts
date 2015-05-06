@@ -1,11 +1,12 @@
 #!/bin/bash
-# Normalizing by coverage with 'normalize_by_kmer_coverage.pl'
+# Normalizing by coverage with 'normalize_by_kmer_coverage.pl' from Trinity
 
 #### FIRST SET THE FILES YOU WANT TO USE FOR ASSEMBLY OF REFERENCE ###
+# only add the sample name, as below it will be assumed that the file can be found within the $TRIMMED_FOLDER
 sample1="example1"
 sample2="example2"
 sample3="example3"
-# and as many as necessary
+# add as many as necessary
 
 # point to insilico_read_normalization.pl
 NORMALIZE_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/util/insilico_read_normalization.pl"
@@ -14,9 +15,10 @@ NORMALIZE_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/util/insilico_read
 TRIMMED_FOLDER="03_trimmed"
 NORMALIZED_FOLDER="04_normalized"
 
-# Copy samples of interest to normalized folder
-# rm -r $NORMALIZED_FOLDER/normalized_reads 2> /dev/null
-cp -l $TRIMMED_FOLDER/$sample1 $TRIMMED_FOLDER/$sample2 $NORMALIZED_FOLDER/
+# Copy samples of interest to normalized folder, add $TRIMMED_FOLDER/$sample2 as many as necessary
+cp $TRIMMED_FOLDER/$sample1 $TRIMMED_FOLDER/$sample2 $NORMALIZED_FOLDER/
+
+
 
 # Digital normalization of samples of interest
 ls -1 $NORMALIZED_FOLDER/*trimmed.fastq.gz | \
@@ -50,6 +52,9 @@ ls -1 $NORMALIZED_FOLDER/*trimmed.fastq.gz | \
 
 # Remove temporary 'ok', 'left', and 'right' links
 rm $NORMALIZED_FOLDER/*.fq.ok
+
+# Remove copied trimmed files
+rm $NORMALIZED_FOLDER/*trimmed.fastq.gz
 
 # Compress normalized files
 echo "Compressing normalized files"
