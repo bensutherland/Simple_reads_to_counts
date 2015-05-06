@@ -13,8 +13,8 @@ REFconvertTOOL="/project/lbernatchez/drobo/users/bensuth/chado_test/chado/bin/gm
 
 
 #set environment variables
-trimmed_FOLDER="06_trimmed_for_mapping"
-COUNT_FOLDER="09_GXlevels"
+trimmed_FOLDER="03_trimmed"
+# COUNT_FOLDER="09_GXlevels"
 REFgff3="./Trinity.gff3"
 
 # use htseq-count
