@@ -87,6 +87,10 @@ qsub 01_scripts/jobs/03_trinity_job.sh
 
 This will result in a file called *Trinity.fasta* in your 05_trinity_output folder.
 
+# d) align individual samples against reference
+
+requires `bwa` and `samtools`
+
 ### mini-step: index reference with bwa
 Note: only need to do this once  
 requires `bwa`  
@@ -102,9 +106,7 @@ On Katak:
 qsub 01_scripts/jobs/03a_indexRef_job.sh
 ```
 
-# d) align individual samples against reference
-
-requires `bwa` and `samtools`
+### alignment
 
 Input files are to be in 06_trimmed_for_mapping/ and output files will be moved to 07_mapped/
 
