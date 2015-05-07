@@ -1,18 +1,18 @@
 #!/bin/bash
-#$ -N trim
+#$ -N bwa
 #$ -M $MY_EMAIL_ADDRESS
 #$ -m beas
-#$ -pe smp 2
-#$ -l h_vmem=20G
+#$ -pe smp 10
+#$ -l h_vmem=100G
 #$ -l h_rt=12:00:00
 #$ -cwd
 #$ -S /bin/bash
 
-# used to index reference
-REFERENCE=/project/lbernatchez/drobo/users/bensuth/00_resources/Ssa_ASM_3.6.fasta.gz
+# point to reference transcriptome
+REFERENCE=05_trinity_output/sfontinalis_contigs.fasta
 
 #unzip fasta
-gunzip -c /project/lbernatchez/drobo/users/bensuth/00_resources/Ssa_ASM_3.6.fasta.gz > project/lbernatchez/drobo/users/bensuth/00_resources/Ssa_ASM_3.6.fasta
+gunzip -c $REFERENCE.gz > $REFERENCE
 
 #Index reference
 bwa index $REFERENCE
