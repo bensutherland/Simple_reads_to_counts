@@ -108,7 +108,7 @@ qsub 01_scripts/jobs/03a_indexRef_job.sh
 
 ### alignment
 
-Input files are to be in 06_trimmed_for_mapping/ and output files will be moved to 07_mapped/
+Input files are in 03_trimmed/ and output files will be moved to 06_mapped/
 
 Edit 01_scripts/04_BWAaln.sh by giving path and names to each sample and RG indexes (e.g. replace short identifier (bolded for clarity)) for each RG at RG[1]='@RG\tID:**lib208**\tSM:**lib208**\tPL:Illumina'
 
