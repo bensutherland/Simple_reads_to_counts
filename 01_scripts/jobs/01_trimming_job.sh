@@ -8,4 +8,4 @@
 #$ -cwd
 #$ -S /bin/bash
 
-./01_scripts/01_trimming.sh
+time ./01_scripts/01_trimming.sh
