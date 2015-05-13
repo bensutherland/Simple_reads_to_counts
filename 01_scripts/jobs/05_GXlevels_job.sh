@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N HTseq
-#$ -M $MY_EMAIL_ADDRESS
+#$ -M your.email
 #$ -m beas
 #$ -pe smp 3
 #$ -l h_vmem=100G
