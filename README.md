@@ -4,10 +4,10 @@ Version 0.1
 
 ### Disclaimer
 This pipeline is made available **with no waranty of usefulness of any kind**.
-It has been put together to facilitate reference assembly and alignment sample single-end data
-This pipeline uses valuable tools developed by other groups (see 'Requires' below)  
+Purpose: reference assembly and alignment of single-end data
+It is primarily built around valuable tools developed by other groups (see 'Requires' below)  
 and components of the IBIS-Trinity-Pipeline: https://github.com/enormandeau/trinity_pipeline_ibis  
-and the Simple Fools Guide from the Palumbi lab: http://sfg.stanford.edu/guide.html
+and the very useful Simple Fools Guide from the Palumbi lab: http://sfg.stanford.edu/guide.html
 
 # SE-reads_assemble-to-counts
 Quality trim single-end data and remove adapters, generate reference transcriptome, map reads to reference transcriptome
