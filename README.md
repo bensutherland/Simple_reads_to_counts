@@ -3,7 +3,7 @@ Version 0.1
 2015-05-05
 
 ### Disclaimer
-This pipeline is made available **with no waranty of usefulness of any kind**.
+This pipeline is made available **with no waranty of usefulness of any kind**.  
 Purpose: reference assembly and alignment of single-end data
 It is primarily built around valuable tools developed by other groups (see 'Requires' below)  
 and components of the IBIS-Trinity-Pipeline: https://github.com/enormandeau/trinity_pipeline_ibis  
