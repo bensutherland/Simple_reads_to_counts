@@ -10,6 +10,7 @@ Trinity.fasta
 *.fasta.fai
 *.fasta.pac
 *.fasta.sa
+*.fasta.gz
 *.fastq.gz
 *.fastq.gz.bam
 *.fastq.gz.bam.bai
