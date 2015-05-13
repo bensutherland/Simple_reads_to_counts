@@ -4,6 +4,7 @@ Trinity.fasta
 *.finished
 *.fq
 *.fq.gz
+*.fasta
 *.fasta.amb
 *.fasta.ann
 *.fasta.bwt
