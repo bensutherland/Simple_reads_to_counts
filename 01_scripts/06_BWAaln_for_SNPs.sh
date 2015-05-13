@@ -3,12 +3,14 @@
 
 ###NOTE THIS SCRIPT REQUIRES THAT YOUR REFERENCE IS ALREADY INDEXED (bwa index REFERENCE)
 
-###NOTE this script is very similar to the 04_BWAaln.sh except that it uses the digital normalized files rather than the trimmed only files.
+###NOTE this script is very similar to the 04_BWAaln.sh except that it uses the MarkDuplicates.jar to remove duplicate reads (required to identify SNPs)
 
 # global variables (note: point to REFERENCE)
 TRIMMED_FOLDER="03_trimmed"
 MAPPED_FOLDER="06_mapped"
 REFERENCE="05_trinity_output/sfontinalis_contigs.fasta"
+markDupProg="/project/lbernatchez/drobo/users/bensuth/programs"
+
 
 #Create an array to hold the names of all our samples
 #Later, we can then cycle through each sample using a simple foor loop
@@ -28,8 +30,8 @@ do
     bwa mem -t 10 -R ${RG[${i}]} $REFERENCE ${sample} > ${sample}.sam
     samtools view -Sb ${sample}.sam > ${sample}.unsorted.bam  #-S = input sam -b = output bam
     samtools sort ${sample}.unsorted.bam ${sample}
-	java -Xmx75g -jar ~/programs/MarkDuplicates.jar INPUT=${sample}.bam OUTPUT=${sample}_dedup.bam METRICS_FILE=${sample}_metricsfile MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=250 ASSUME_SORTED=true VALIDATION_STRINGENCY=SILENT REMOVE_DUPLICATES=True
-	samtools index ${sample}_dedup.bam
+    java -Xmx75g -jar $markDupProg/MarkDuplicates.jar INPUT=${sample}.bam OUTPUT=${sample}_dedup.bam METRICS_FILE=${sample}_metricsfile MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=250 ASSUME_SORTED=true VALIDATION_STRINGENCY=SILENT REMOVE_DUPLICATES=True
+    samtools index ${sample}_dedup.bam
 done
 
 # clean up space
