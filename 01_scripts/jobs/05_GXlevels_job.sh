@@ -9,4 +9,3 @@
 #$ -S /bin/bash
 
 time ./01_scripts/05_GXlevels.sh
-

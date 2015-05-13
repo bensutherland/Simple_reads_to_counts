@@ -8,4 +8,4 @@
 #$ -cwd
 #$ -S /bin/bash
 
-./01_scripts/02_diginorm.sh
+time ./01_scripts/02_diginorm.sh
