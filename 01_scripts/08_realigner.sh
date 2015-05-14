@@ -1,7 +1,7 @@
 #!/bin/bash
 # note these scripts are from Simple Fools Guide - Palumbi lab and slightly modified.
 
-REFERENCE=./05_trinity_output/Trinity.fasta
+REFERENCE="05_trinity_output/sfontinalis_contigs.fasta"
 
 ###  Identify regions in need of realignment:
 java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
