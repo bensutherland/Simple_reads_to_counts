@@ -2,13 +2,16 @@
 # note these scripts are from Simple Fools Guide - Palumbi lab and slightly modified.
 
 REFERENCE="05_trinity_output/sfontinalis_contigs.fasta"
+SNP_FOLDER="08_callSNPs"
+GATKjar="/project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar"
+
 
 ###  Identify regions in need of realignment:
-java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
+java -Xmx75g -jar $GATKjar \
   -T RealignerTargetCreator \
   -R $REFERENCE \
-  -o ./08_callSNPs/merged_output.intervals \
-  -I ./08_callSNPs/merged.bam \
+  -o $SNP_FOLDER/merged_output.intervals \
+  -I $SNP_FOLDER/merged.bam \
   --minReadsAtLocus 3
   
 #  defaults for optional parameters:
@@ -21,12 +24,12 @@ java -Xmx70g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalys
 #-------------------------------------------------------------------------
 
 ###  Run realigner over intervals:
-java -Xmx75g -jar /project/lbernatchez/drobo/users/bensuth/programs/GenomeAnalysisTK-1.0-6150-g32730b1/GenomeAnalysisTK.jar \
-  -I ./08_callSNPs/merged.bam \
+java -Xmx75g -jar $GATKjar \
+  -I $SNP_FOLDER/merged.bam \
   -R $REFERENCE \
   -T IndelRealigner \
   -targetIntervals ./08_callSNPs/merged_output.intervals \
-  -o ./08_callSNPs/merged_realigned.bam \
+  -o $SNP_FOLDER/merged_realigned.bam \
   -LOD 3.0 \
   --maxReadsInMemory 1000000 \
   --maxReadsForRealignment 100000
