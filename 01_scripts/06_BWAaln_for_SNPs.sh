@@ -46,4 +46,4 @@ done
 
 # clean up space
 rm ./$TRIMMED_FOLDER/*.sam ./$TRIMMED_FOLDER/*.unsorted.bam
-mv ./$TRIMMED_FOLDER/*_dedup.bam ./$TRIMMED_FOLDER/*_dedup.bam.bai ./$MAPPED_FOLDER/
+mv ./$TRIMMED_FOLDER/*_dedup.bam ./$TRIMMED_FOLDER/*_dedup.bam.bai ./$TRIMMED_FOLDER/*metricsfile ./$MAPPED_FOLDER/
