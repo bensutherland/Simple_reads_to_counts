@@ -4,12 +4,14 @@ Trinity.fasta
 *.finished
 *.fq
 *.fq.gz
+*.fasta
 *.fasta.amb
 *.fasta.ann
 *.fasta.bwt
 *.fasta.fai
 *.fasta.pac
 *.fasta.sa
+*.fasta.gz
 *.fastq.gz
 *.fastq.gz.bam
 *.fastq.gz.bam.bai
@@ -22,3 +24,4 @@ z-*
 *vcf*
 *.gff3
 *.test
+*.dict

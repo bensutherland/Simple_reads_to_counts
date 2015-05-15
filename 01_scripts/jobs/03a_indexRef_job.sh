@@ -2,8 +2,8 @@
 #$ -N bwa
 #$ -M $MY_EMAIL_ADDRESS
 #$ -m beas
-#$ -pe smp 10
-#$ -l h_vmem=100G
+#$ -pe smp 2
+#$ -l h_vmem=75G
 #$ -l h_rt=12:00:00
 #$ -cwd
 #$ -S /bin/bash

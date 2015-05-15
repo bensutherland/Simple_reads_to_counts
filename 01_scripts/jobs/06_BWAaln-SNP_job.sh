@@ -8,4 +8,4 @@
 #$ -cwd
 #$ -S /bin/bash
 
-time ./01_scripts/04_BWAaln.sh
+time ./01_scripts/06_BWAaln_for_SNPs.sh
