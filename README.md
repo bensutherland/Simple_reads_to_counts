@@ -28,6 +28,7 @@ Requires the following:
 `samtools`            http://samtools.sourceforge.net  
 `gmod_fasta2gff3.pl`  https://github.com/scottcain/chado_test  
 `htseq-count`         http://www-huber.embl.de/users/anders/HTSeq/doc/overview.html  
+`picard tools`        http://broadinstitute.github.io/picard/
 
 ## General comments
 Put raw *fastq.gz single-end data in 02_raw_data  
