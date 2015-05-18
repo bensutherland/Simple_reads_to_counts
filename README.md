@@ -1,3 +1,4 @@
+**note: SNP-finding component still in progress**
 SE-reads_assemble-to-counts  
 Version 0.1  
 2015-05-05
