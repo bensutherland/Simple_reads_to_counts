@@ -9,7 +9,7 @@ markDupProg="/project/lbernatchez/drobo/users/bensuth/programs"
 MergeProg="/project/lbernatchez/drobo/users/bensuth/programs/MergeSamFiles.jar"
 
 # dedup, merge, index
-ls -l $MAPPED_FOLDER/*.bam |
+ls -1 $MAPPED_FOLDER/*.bam |
 	sort -u |
 	while read i
 	do
@@ -20,7 +20,7 @@ ls -l $MAPPED_FOLDER/*.bam |
 		VALIDATION_STRINGENCY=SILENT REMOVE_DUPLICATES=True
 	done
 
-ls -l $MAPPED_FOLDER/*_dedup.bam |
+ls -1 $MAPPED_FOLDER/*_dedup.bam |
 	sort -u |
 	while read i
 	do
