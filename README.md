@@ -166,7 +166,7 @@ On Katak:
 qsub 01_scripts/jobs/06_dedup_alignment_job.sh
 ```
 
-## f) 2) deal with indels and call high quality SNPs (Truth Training Set)
+## f) 2) deal with indels and call high quality SNPs (Training Set)
 requires `GenomeAnalysisTK.jar` from `GATK`  
 
 Input files are to be in 08_callSNPs/  
