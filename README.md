@@ -154,58 +154,58 @@ requires `MarkDuplicates.jar` from `picard`
 
 Input files are to be in 06_mapped/
 
-Edit 01_scripts/06_dedup_alignment.sh by providing the path to `MarkDuplicates.jar`  
+Edit 01_scripts/06_dedup-merge-index.sh by providing the path to `MarkDuplicates.jar` and `MergeSamFiles.jar`  
 
 Locally:
 ```
-01_scripts/06_dedup_alignment.sh
+01_scripts/06_dedup-merge-index.sh
 ```
 
 On Katak: 
 ```
-qsub 01_scripts/jobs/06_dedup_alignment_job.sh
+qsub 01_scripts/jobs/06_dedup-merge-index_job.sh
 ```
 
 ## f) 2) deal with indels and call high quality SNPs (Training Set)
 requires `GenomeAnalysisTK.jar` from `GATK`  
 
 Input files are to be in 08_callSNPs/  
-Edit 01_scripts/08_realigner.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
+Edit 01_scripts/07_realigner.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
 
 Locally:
 ```
-01_scripts/08_realigner.sh
+01_scripts/07_realigner.sh
 ```
 
 On Katak: 
 ```
-qsub 01_scripts/jobs/08_realigner_job.sh
+qsub 01_scripts/jobs/07_realigner_job.sh
 ```
 
 ## f) 3) rediscover SNPs and recalibrate against the training set
 requires `GenomeAnalysisTK.jar` from `GATK`
 
 Input files are to be in 08_callSNPs/  
-Edit 01_scripts/08_realigner.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
+Edit 01_scripts/08_highqualSNPs.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
 
 Locally:
 ```
-01_scripts/09_highqualSNPs.sh  
+01_scripts/08_highqualSNPs.sh  
 ```
 Then 
 ```
-01_scripts/10_varRecalib.sh  
+01_scripts/09_varRecalib.sh  
 ```
 
 
 
 On Katak: 
 ```
-qsub 01_scripts/jobs/09_highqualSNPs_job.sh  
+qsub 01_scripts/jobs/08_highqualSNPs_job.sh  
 ```
 On Katak (Then): 
 ```
-qsub 01_scripts/jobs/10_varRecalib.sh  
+qsub 01_scripts/jobs/09_varRecalib_job.sh  
 ```
 
 Now the final set of high quality SNPs are found in the output file. This can be parsed to obtain genotypes  
