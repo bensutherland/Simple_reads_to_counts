@@ -15,10 +15,12 @@ Quality trim single-end data and remove adapters, generate reference transcripto
   a) Trim for quality and remove adapters  
   b) Digital normalize libraries to be used for *de novo* reference transcriptome  
   c) Assemble *de novo* reference transcriptome  
-  d) Align quality-trimmed sample files against reference  
+  d) Align quality-trimmed sample files against reference
+  Follow (e) for expression and (f) for SNPs  
   e) Obtain expression level raw counts for each contig in reference  
-Subsequently, the alignment files can be used in companion pipeline *to be named* for SNP discovery,  
-or the expression level data can be imported into differential expression analysis software.  
+  f) merge alignments, search for SNPs with elevated stringency (training set), then in discovery mode  
+  
+The expression level data can be imported into differential expression analysis software (e.g. edgeR).  
 
 Requires the following:  
 `Trimmomatic`         http://www.usadellab.org/cms/?page=trimmomatic  
@@ -28,7 +30,8 @@ Requires the following:
 `samtools`            http://samtools.sourceforge.net  
 `gmod_fasta2gff3.pl`  https://github.com/scottcain/chado_test  
 `htseq-count`         http://www-huber.embl.de/users/anders/HTSeq/doc/overview.html  
-`picard tools`        http://broadinstitute.github.io/picard/
+`picard tools`        http://broadinstitute.github.io/picard/  
+`gatk`                https://www.broadinstitute.org/gatk/download/   
 
 ## General comments
 Put raw *fastq.gz single-end data in 02_raw_data  
@@ -123,8 +126,7 @@ On Katak:
 qsub 01_scripts/jobs/04_BWAaln_job.sh
 ```
 
-# e) obtain counts for each contig for each individual
-
+# e) obtain counts for each contig for each individual  
 requires `gmod_fasta2gff3.pl` and `htseq-count`
 
 Input files are to be in 06_mapped/
@@ -143,5 +145,67 @@ qsub 01_scripts/jobs/05_GXlevels_job.sh
 
 The output of the HT-seq script should be ready for input into your preferred analysis pipeline.
 
-Endnotes:
-You can use the alignment .bam files from step (5) to identify SNPs in your transcripts by following <**new pipeline in development**>
+
+# f) SNP finding
+Uses code and pipeline from Simple Fools Guide (Palumbi Lab), with useful explanations given for the processes - http://sfg.stanford.edu/SNP.html  
+## f) 1) prepare .bam for SNP finding  
+Take alignment files generated in step (d) above, and first deduplicate the reads in order to ensure equal coverage for SNP finding. Then merge the .bam files and index.  
+requires `MarkDuplicates.jar` from `picard`
+
+Input files are to be in 06_mapped/
+
+Edit 01_scripts/06_dedup_alignment.sh by providing the path to `MarkDuplicates.jar`  
+
+Locally:
+```
+01_scripts/06_dedup_alignment.sh
+```
+
+On Katak: 
+```
+qsub 01_scripts/jobs/06_dedup_alignment_job.sh
+```
+
+## f) 2) deal with indels and call high quality SNPs (Truth Training Set)
+requires `GenomeAnalysisTK.jar` from `GATK`  
+
+Input files are to be in 08_callSNPs/  
+Edit 01_scripts/08_realigner.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
+
+Locally:
+```
+01_scripts/08_realigner.sh
+```
+
+On Katak: 
+```
+qsub 01_scripts/jobs/08_realigner_job.sh
+```
+
+## f) 3) rediscover SNPs and recalibrate against the training set
+requires `GenomeAnalysisTK.jar` from `GATK`
+
+Input files are to be in 08_callSNPs/  
+Edit 01_scripts/08_realigner.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
+
+Locally:
+```
+01_scripts/09_highqualSNPs.sh  
+```
+Then 
+```
+01_scripts/10_varRecalib.sh  
+```
+
+
+
+On Katak: 
+```
+qsub 01_scripts/jobs/09_highqualSNPs_job.sh  
+```
+On Katak (Then): 
+```
+qsub 01_scripts/jobs/10_varRecalib.sh  
+```
+
+Now the final set of high quality SNPs are found in the output file. This can be parsed to obtain genotypes  
