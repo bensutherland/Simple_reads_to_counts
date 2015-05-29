@@ -8,7 +8,7 @@ REFERENCE="05_trinity_output/sfontinalis_contigs.fasta"
 markDupProg="/project/lbernatchez/drobo/users/bensuth/programs"
 MergeProg="/project/lbernatchez/drobo/users/bensuth/programs/MergeSamFiles.jar"
 
-# dedup, merge, index
+# dedup bam files from MAPPED_FOLDER
 ls -1 $MAPPED_FOLDER/*.bam |
 	sort -u |
 	while read i
@@ -20,14 +20,9 @@ ls -1 $MAPPED_FOLDER/*.bam |
 		VALIDATION_STRINGENCY=SILENT REMOVE_DUPLICATES=True
 	done
 
-ls -1 $MAPPED_FOLDER/*_dedup.bam |
-	sort -u |
-	while read i
-	do
-	  echo $i
-	  java -Xmx75g -jar $MergeProg $(printf 'INPUT=%s ' $MAPPED_FOLDER/*_dedup.bam) \
-        	OUTPUT=$SNP_FOLDER/merged.bam ASSUME_SORTED=TRUE \
-        	MERGE_SEQUENCE_DICTIONARIES=TRUE
-	done
 
+# merge all dedup in MAPPED_FOLDER and put in SNP_FOLDER
+java -Xmx75g -jar $MergeProg $(printf 'INPUT=%s ' $MAPPED_FOLDER/*_dedup.bam) OUTPUT=$SNP_FOLDER/merged.bam ASSUME_SORTED=TRUE MERGE_SEQUENCE_DICTIONARIES=TRUE
+
+# index bam
 samtools index $SNP_FOLDER/merged.bam
