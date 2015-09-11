@@ -1,4 +1,5 @@
 **note: SNP-finding component still in progress**
+**some revisions forthcoming for mapping for transcript quantification**
 SE-reads_assemble-to-counts  
 Version 0.1  
 2015-05-05
