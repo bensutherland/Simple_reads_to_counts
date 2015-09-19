@@ -1,8 +1,8 @@
-**note: SNP-finding component still in progress**
-**some revisions forthcoming for mapping for transcript quantification**
+**note: SNP-finding component still in progress**   
+**note: some revisions coming for mapping for transcript quantification**    
 SE-reads_assemble-to-counts  
 Version 0.1  
-2015-05-05
+2015-05-05    
 
 ### Disclaimer
 This pipeline is made available **with no waranty of usefulness of any kind**.  
