@@ -4,7 +4,7 @@
 #$ -m beas
 #$ -pe smp 10
 #$ -l h_vmem=100G
-#$ -l h_rt=48:00:00
+#$ -l h_rt=150:00:00
 #$ -cwd
 #$ -S /bin/bash
 
