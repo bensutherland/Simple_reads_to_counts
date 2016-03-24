@@ -1,12 +1,11 @@
 #!/bin/bash
-# use bwa mem to map trimmed reads to reference library
+# Map trimmed reads to reference transcriptome with bwa mem
+# Note: Requires that reference is indexed (see README.md) 
 
-###NOTE THIS SCRIPT REQUIRES THAT YOUR REFERENCE IS ALREADY INDEXED (bwa index REFERENCE)
-
-# global variables (note: point to REFERENCE)
+# Global variables
 TRIMMED_FOLDER="03_trimmed"
 MAPPED_FOLDER="06_mapped"
-REFERENCE="05_trinity_output/sfontinalis_contigs.fasta"
+REFERENCE="00_archive/reference_transcriptome/sfontinalis_contigs.fasta.gz"
 
 # map reads and add RG
 ls -1 $TRIMMED_FOLDER/*.fastq.gz |
