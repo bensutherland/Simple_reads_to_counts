@@ -1,6 +1,6 @@
 #!/bin/bash
-# Cleaning and trimming fastq.gz read files with Trimmomatic
-# point to the trimmomatic.jar in Global variables
+# Remove adapters and light quality trimming with Trimmomatic
+# Set location of trimmomatic.jar
 
 # Global variables
 RAW_FOLDER="02_raw_data"
@@ -9,22 +9,22 @@ VECTORS="./00_archive/univec_trimmomatic.fasta"
 TRIMMOMATIC_PROGRAM="/prg/trinityrnaseq/trinityrnaseq_r20140717/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar"
 
 # Filtering and trimming data with trimmomatic
-ls -1 $RAW_FOLDER/*.fastq.gz | \
+ls -1 $RAW_FOLDER/*.fastq.gz | 
     sort -u |
     while read i
     do
-        echo $i
-        java -Xmx70G -jar $TRIMMOMATIC_PROGRAM SE \
+        echo "Trimming $i"
+        java -Xmx85G -jar $TRIMMOMATIC_PROGRAM SE \
             -threads 10 \
             -phred33 \
             "$i" \
             "${i%R1.fastq.gz}"R1_trimmed.fastq.gz \
             ILLUMINACLIP:$VECTORS:2:30:10 \
-            SLIDINGWINDOW:20:30 \
-            LEADING:20 \
-            TRAILING:20 \
+            SLIDINGWINDOW:20:2 \
+            LEADING:2 \
+            TRAILING:2 \
             MINLEN:80
     done
 
-# Transfer trimmed files to $TRIMMED_FOLDER folder
-mv $RAW_FOLDER/*trimmed* $TRIMMED_FOLDER
+# Move trimmed files to trimmed folder
+mv $RAW_FOLDER/*trimmed.fastq.gz $TRIMMED_FOLDER
