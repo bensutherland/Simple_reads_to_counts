@@ -9,10 +9,10 @@
 #$ -S /bin/bash
 
 # point to reference transcriptome
-REFERENCE=05_trinity_output/sfontinalis_contigs.fasta
+REFERENCE="00_archive/reference_transcriptome/sfontinalis_contigs.fasta.gz"
 
 #unzip fasta
-gunzip -c $REFERENCE.gz > $REFERENCE
+# gunzip -c $REFERENCE.gz > $REFERENCE
 
 #Index reference
 bwa index $REFERENCE
