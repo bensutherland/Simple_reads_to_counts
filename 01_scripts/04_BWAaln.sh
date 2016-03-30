@@ -18,10 +18,10 @@ ls -1 $TRIMMED_FOLDER/*.fastq.gz |
 	  ID="@RG\tID:${label}\tSM:${label}\tPL:Illumina"
 	  bwa mem -t 10 -R ${ID} $REFERENCE $i > $i.sam
 	  samtools view -Sb $i.sam > $i.unsorted.bam
-	  samtools sort $i.unsorted.bam $i
-	  samtools index $i.bam
+	  samtools sort -o $i.sorted.bam $i.unsorted.bam
+	  samtools index $i.sorted.bam
 done
 
 # clean up space
-rm ./$TRIMMED_FOLDER/*.sam ./$TRIMMED_FOLDER/*.unsorted.bam
+#rm ./$TRIMMED_FOLDER/*.sam ./$TRIMMED_FOLDER/*.unsorted.bam
 mv ./$TRIMMED_FOLDER/*.bam ./$TRIMMED_FOLDER/*.bam.bai ./$MAPPED_FOLDER/
