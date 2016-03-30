@@ -1,3 +1,7 @@
+bwa.*
+trim.*
+finished.indexing.ref
+*~
 *.fa
 *.fas
 Trinity.fasta
@@ -5,12 +9,12 @@ Trinity.fasta
 *.fq
 *.fq.gz
 *.fasta
-*.fasta.amb
-*.fasta.ann
-*.fasta.bwt
-*.fasta.fai
-*.fasta.pac
-*.fasta.sa
+*.amb
+*.ann
+*.bwt
+*.fai
+*.pac
+*.sa
 *.fasta.gz
 *.fastq.gz
 *.fastq.gz.bam
