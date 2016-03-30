@@ -1,33 +1,30 @@
 #!/bin/bash
-# use indexed bam files to generate counts for each individual
+# Obtain gene counts per individual using indexed sorted bam files
 
-# point to gmod_fasta2gff2   https://github.com/scottcain/chado_test
-# set global variables
-REFconvertTOOL="/project/lbernatchez/drobo/users/bensuth/chado_test/chado/bin/gmod_fasta2gff3.pl"
-REFERENCE="sfontinalis_contigs.fasta"
-ASSEMBLED_FOLDER="05_trinity_output"
+# NOTE: assumes 'htseq-count' is in your path
 
+# Set environment variables
+REF_CONVERT_TOOL="/home/bensuth/programs/chado_test/chado/bin/gmod_fasta2gff3.pl"
+REFERENCE="/home/bensuth/03_sfon_txome/SE-reads_assemble-to-counts/00_archive/reference_transcriptome/sfontinalis_contigs.fasta.gz"
+MAPPED_FOLDER="06_mapped"
+COUNT_FOLDER="07_gx_levels"
+REF_gff3="$REFERENCE".gff3
 
-# generate .gff from the annotation file indicating that each 'scaffold' is in fact a coding region 
-$REFconvertTOOL \
-	--fasta_dir $ASSEMBLED_FOLDER/$REFERENCE \
-	--gfffilename $ASSEMBLED_FOLDER/$REFERENCE.gff3 \
+# Produce .gff from transcriptome that indicates each 'scaffold' is a coding sequence
+$REF_CONVERT_TOOL \
+	--fasta_dir $REFERENCE \
+	--gfffilename $REFERENCE.gff3 \
 	--type CDS \
 	--nosequence
 
-# obtain counts
-# set global variables
-MAPPED_FOLDER="06_mapped"
-COUNT_FOLDER="07_gx_levels"
-REFgff3="$ASSEMBLED_FOLDER/$REFERENCE.gff3"
-
-# use htseq-count
-ls -1 $MAPPED_FOLDER/*fastq.gz.bam | \
+# Produce counts per individual with htseq-count
+ls -1 $MAPPED_FOLDER/*.fastq.gz.sorted.bam | 
     sort -u | 
     while read i
     do
-        echo $i
-	htseq-count --format=bam --stranded=no --type=CDS --order=pos --idattr=Name $i $REFgff3 > "$i"_htseq_counts.txt
+        echo "Counts for sample" $i
+	    htseq-count --format=bam --stranded=no --type=CDS --order=pos --idattr=Name $i $REFgff3 > "$i".htseq.txt
     done
 
-mv $MAPPED_FOLDER/*_htseq_counts.txt $COUNT_FOLDER/
+# Clean up mapped folder
+mv $MAPPED_FOLDER/*.htseq.txt $COUNT_FOLDER/
