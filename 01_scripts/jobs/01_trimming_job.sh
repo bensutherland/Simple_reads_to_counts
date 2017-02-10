@@ -1,11 +1,9 @@
 #!/bin/bash
-#$ -N trim
-#$ -M $MY_EMAIL_ADDRESS
-#$ -m beas
-#$ -pe smp 10
-#$ -l h_vmem=100G
-#$ -l h_rt=150:00:00
-#$ -cwd
-#$ -S /bin/bash
+#SBATCH --cpus-per-task=1
+#SBATCH -J trimming
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=bensutherland7@gmail.com
+#SBATCH --time=44:00:00
+#SBATCH --mem=50000
 
 time ./01_scripts/01_trimming.sh
