@@ -29,3 +29,4 @@ z-*
 *.gff3
 *.test
 *.dict
+slurm-*

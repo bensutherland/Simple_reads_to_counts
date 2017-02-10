@@ -1,17 +1,14 @@
 #!/bin/bash
 # Remove adapters and light quality trimming with Trimmomatic
 
-# Load module 
-module load trimmomatic/0.33 
-
 # Global variables
 RAW_FOLDER="02_raw_data"
 TRIMMED_FOLDER="03_trimmed"
 VECTORS="./00_archive/univec_trimmomatic.fasta"
-TRIMMOMATIC_PROGRAM="trimmomatic-0.33.jar"
+TRIMMOMATIC_PROGRAM="/home/bensuth/programs/trimmomatic-0.36.jar"
 
 # User set variable
-NUM_CPU="10"
+NUM_CPU="5"
 
 
 # Filtering and trimming data with trimmomatic
@@ -20,7 +17,7 @@ ls -1 $RAW_FOLDER/*.fastq.gz |
     while read i
     do
         echo "Trimming $i"
-        $TRIMMOMATIC_PROGRAM SE \
+        java -Xmx75G -jar $TRIMMOMATIC_PROGRAM SE \
             -threads $NUM_CPU \
             -phred33 \
             "$i" \
