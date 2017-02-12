@@ -4,8 +4,8 @@
 
 # Global variables
 TRIMMED_FOLDER="03_trimmed"
-MAPPED_FOLDER="06_mapped"
-REFERENCE="00_archive/reference_transcriptome/sfontinalis_contigs.fasta.gz"
+MAPPED_FOLDER="04_mapped"
+REFERENCE="~/00_resources/sfontinalis_contigs.fasta.gz"
 
 # map reads and add RG
 ls -1 $TRIMMED_FOLDER/*.fastq.gz |
