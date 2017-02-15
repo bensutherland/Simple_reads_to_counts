@@ -10,6 +10,9 @@
 # produces samstat .html files for all files in the $MAPPED_FOLDER
 # requirement: must have samstat installed and in path
 
+# NOTE: may need to module load samtools
+
+
 # Global variables
 MAPPED_FOLDER="04_mapped"
 
