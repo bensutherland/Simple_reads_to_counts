@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --cpus-per-task=10
+#SBATCH --cpus-per-task=5
 #SBATCH -J bwa 
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=bensutherland7@gmail.com
