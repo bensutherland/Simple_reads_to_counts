@@ -6,11 +6,12 @@
 #SBATCH --time=12:00:00
 #SBATCH --mem=10000
 
+# Load module
+module load samtools/1.3
 
 # produces samstat .html files for all files in the $MAPPED_FOLDER
 # requirement: must have samstat installed and in path
-
-# NOTE: may need to module load samtools
+# need to module load samtools
 
 
 # Global variables
