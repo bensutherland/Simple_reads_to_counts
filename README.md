@@ -1,18 +1,12 @@
-**note: SNP-finding component still in progress**   
-**note: some revisions coming for mapping for transcript quantification**    
-SE-reads_assemble-to-counts  
-Version 0.1  
-2015-05-05    
+Simple reads to counts
+Version 0.2  
+2017-03-07    
 
 ### Disclaimer
 This pipeline is made available **with no waranty of usefulness of any kind**.  
-Purpose: reference assembly and alignment of single-end data
-It is primarily built around valuable tools developed by other groups (see 'Requires' below)  
-and components of the IBIS-Trinity-Pipeline: https://github.com/enormandeau/trinity_pipeline_ibis  
-and the very useful Simple Fools Guide from the Palumbi lab: http://sfg.stanford.edu/guide.html
+Purpose: Multi-mapping alignment of single-end reads to a reference transcriptome and quantification    
+It was built within the Bernatchez Lab at IBIS, but is mainly for the authors use and not rigorously tested for others    
 
-# SE-reads_assemble-to-counts
-Quality trim single-end data and remove adapters, generate reference transcriptome, map reads to reference transcriptome
 ## Overview:
   a) Remove adapters and trim for quality    
   b) Multi-map reads against reference transcriptome    
@@ -21,10 +15,10 @@ Quality trim single-end data and remove adapters, generate reference transcripto
 The expression level data can be imported into differential expression analysis software (e.g. edgeR).  
 
 Requires the following:  
-`Trimmomatic`         http://www.usadellab.org/cms/?page=trimmomatic  
-`bowtie2`    
-`samtools`            http://samtools.sourceforge.net  
-`corset`    
+`Trimmomatic`   http://www.usadellab.org/cms/?page=trimmomatic  
+`bowtie2`       http://bowtie-bio.sourceforge.net/bowtie2/index.shtml        
+`samtools`      http://samtools.sourceforge.net    
+`corset`        https://github.com/Oshlack/Corset    
 
 ## General comments
 Put raw *fastq.gz single-end data in 02_raw_data  
@@ -103,67 +97,3 @@ qsub 01_scripts/jobs/05_GXlevels_job.sh
 
 The output of the HT-seq script should be ready for input into your preferred analysis pipeline.
 
-
-# f) SNP finding
-Uses code and pipeline from Simple Fools Guide (Palumbi Lab), with useful explanations given for the processes - http://sfg.stanford.edu/SNP.html  
-## f) 1) prepare .bam for SNP finding  
-Take alignment files generated in step (d) above, and first deduplicate the reads in order to ensure equal coverage for SNP finding. Then merge the .bam files and index.  
-requires `MarkDuplicates.jar` from `picard`
-
-Input files are to be in 06_mapped/
-
-Edit 01_scripts/06_dedup-merge-index.sh by providing the path to `MarkDuplicates.jar` and `MergeSamFiles.jar`  
-
-Locally:
-```
-01_scripts/06_dedup-merge-index.sh
-```
-
-On Katak: 
-```
-qsub 01_scripts/jobs/06_dedup-merge-index_job.sh
-```
-
-## f) 2) deal with indels and call high quality SNPs (Training Set)
-requires `GenomeAnalysisTK.jar` from `GATK`  
-
-Input files are to be in 08_callSNPs/  
-Edit 01_scripts/07_realigner.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
-
-Locally:
-```
-01_scripts/07_realigner.sh
-```
-
-On Katak: 
-```
-qsub 01_scripts/jobs/07_realigner_job.sh
-```
-
-## f) 3) rediscover SNPs and recalibrate against the training set
-requires `GenomeAnalysisTK.jar` from `GATK`
-
-Input files are to be in 08_callSNPs/  
-Edit 01_scripts/08_highqualSNPs.sh by providing the path to the reference transcriptome and the `GenomeAnalysisTK.jar`   
-
-Locally:
-```
-01_scripts/08_highqualSNPs.sh  
-```
-Then 
-```
-01_scripts/09_varRecalib.sh  
-```
-
-
-
-On Katak: 
-```
-qsub 01_scripts/jobs/08_highqualSNPs_job.sh  
-```
-On Katak (Then): 
-```
-qsub 01_scripts/jobs/09_varRecalib_job.sh  
-```
-
-Now the final set of high quality SNPs are found in the output file. This can be parsed to obtain genotypes  
