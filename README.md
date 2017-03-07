@@ -65,21 +65,24 @@ sbatch 01_scripts/jobs/02_bowtie2_index_job.sh
 
 ### Alignment
 
-Input files are in 03_trimmed/ and output files will be moved to 06_mapped/
-
-Edit 01_scripts/04_BWAaln.sh by giving path and names to each sample and RG indexes (e.g. replace short identifier (bolded for clarity)) for each RG at RG[1]='@RG\tID:**lib208**\tSM:**lib208**\tPL:Illumina'
-
-This step will create an alignment for each sample, and insert read group IDs into each header. Then, using samtools will convert to .bam, sort the .bam, and index it for future work.
+Input files are in 03_trimmed/
+Align each sample, inserting read group IDs.    
+Using samtools, convert to .bam, sort, index, and remove .sam.    
 
 Locally:
 ```
-01_scripts/04_BWAaln.sh
+01_scripts/02_bowtie2_aln.sh
 ```
 
 On Katak: 
 ```
-qsub 01_scripts/jobs/04_BWAaln_job.sh
+qsub 01_scripts/jobs/02_bowtie_align_job.sh 
 ```
+
+
+
+
+## Below to be updated (2017-03-07)    
 
 # e) obtain counts for each contig for each individual  
 requires `gmod_fasta2gff3.pl` and `htseq-count`
