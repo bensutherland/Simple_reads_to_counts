@@ -14,31 +14,22 @@ and the very useful Simple Fools Guide from the Palumbi lab: http://sfg.stanford
 # SE-reads_assemble-to-counts
 Quality trim single-end data and remove adapters, generate reference transcriptome, map reads to reference transcriptome
 ## Overview:
-  a) Trim for quality and remove adapters  
-  b) Digital normalize libraries to be used for *de novo* reference transcriptome  
-  c) Assemble *de novo* reference transcriptome  
-  d) Align quality-trimmed sample files against reference
-  Follow (e) for expression and (f) for SNPs  
-  e) Obtain expression level raw counts for each contig in reference  
-  f) merge alignments, search for SNPs with elevated stringency (training set), then in discovery mode  
+  a) Remove adapters and trim for quality    
+  b) Multi-map reads against reference transcriptome    
+  c) Use Corset to produce clusters for reduction of redundancy of transcriptome and produce counts     
   
 The expression level data can be imported into differential expression analysis software (e.g. edgeR).  
 
 Requires the following:  
 `Trimmomatic`         http://www.usadellab.org/cms/?page=trimmomatic  
-`insilico_read_normalization.pl`  http://trinityrnaseq.sourceforge.net/trinity_insilico_normalization.html  
-`Trinity`             http://trinityrnaseq.github.io  
-`bwa`                 http://bio-bwa.sourceforge.net  
+`bowtie2`    
 `samtools`            http://samtools.sourceforge.net  
-`gmod_fasta2gff3.pl`  https://github.com/scottcain/chado_test  
-`htseq-count`         http://www-huber.embl.de/users/anders/HTSeq/doc/overview.html  
-`picard tools`        http://broadinstitute.github.io/picard/  
-`gatk`                https://www.broadinstitute.org/gatk/download/   
+`corset`    
 
 ## General comments
 Put raw *fastq.gz single-end data in 02_raw_data  
 Run all jobs from the main directory  
-Job files are specific to Katak at IBIS, but with some minor editing can be adapted for other servers  
+Job files are specific to Katak at IBIS (slurm), but with some minor editing can be adapted for other servers  
 
 # a) Trim for quality
 Generates a fastq file for each library  
@@ -55,62 +46,24 @@ Run on Katak:
 qsub 01_scripts/jobs/01_trimming_job.sh
 ```
 
-# b) Normalization
-This step normalizes only those libraries to be used for **de novo** transcriptome assembly  
-Edit 01_scripts/02_diginorm.sh by giving path to `insilico_read_normalization.pl` and providing the names of the samples to be used for the assembly, by sample1="your.sample", sample2="your.second.sample" ... etc.  
-Samples to be used for normalization will be moved to `04_normalized`, digital normalized, compressed, and concatenated to norm_libs_for_trinity.fq.gz   
-requires `insilico_read_normalization.pl`  
+# b) Multi-map reads against the reference transcriptome     
+
+requires `bowtie2` and `samtools`
+
+First index reference with bowtie2 (only need to do once)
 
 Locally:
+Ensure reference is in fasta format (not compressed), and change REFERENCE to the path to your reference you want to align against
 ```
-01_scripts/02_diginorm.sh
+bowtie2-build -f $REFERENCE $REFERENCE
 ```
 
 On Katak:
 ```
-qsub 01_scripts/jobs/02_diginorm_job.sh
+sbatch 01_scripts/jobs/02_bowtie2_index_job.sh
 ```
 
-*Tip*: that often the more different individuals included in the assembly, the more contigs are produced. This may be due to alleles dividing the contigs. For this reason, it is suggested to not use all of the individuals for **de novo** assembly, but rather representatives from each condition with the deepest sequencing.
-
-# c) Assemble **de novo** transcriptome
-Uses normalized libraries in '04_normalized'
-requires `Trinity`  
-
-Edit 01_scripts/03_trinity.sh by giving path to `Trinity` assembler
-
-Locally:
-```
-01_scripts/03_trinity.sh
-```
-
-On Katak:
-```
-qsub 01_scripts/jobs/03_trinity_job.sh
-```
-
-This will result in a file called *Trinity.fasta* in your 05_trinity_output folder.
-
-# d) align individual samples against reference
-
-requires `bwa` and `samtools`
-
-### mini-step: index reference with bwa
-Note: only need to do this once  
-requires `bwa`  
-
-Locally:
-ensure reference is in fasta format (not compressed), and change REFERENCE to the path to your reference you want to align against
-```
-bwa index REFERENCE
-```
-
-On Katak:
-```
-qsub 01_scripts/jobs/03a_indexRef_job.sh
-```
-
-### alignment
+### Alignment
 
 Input files are in 03_trimmed/ and output files will be moved to 06_mapped/
 
