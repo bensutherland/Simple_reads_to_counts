@@ -30,3 +30,5 @@ z-*
 *.test
 *.dict
 slurm-*
+clusters.txt
+counts.txt
