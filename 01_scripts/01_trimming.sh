@@ -21,7 +21,7 @@ ls -1 $RAW_FOLDER/*.fastq.gz |
             -threads $NUM_CPU \
             -phred33 \
             "$i" \
-            "${i%R1.fastq.gz}"R1_trimmed.fastq.gz \
+            "${i%.fastq.gz}"_trimmed.fastq.gz \
             ILLUMINACLIP:$VECTORS:2:30:10 \
             SLIDINGWINDOW:20:2 \
             LEADING:2 \
@@ -30,4 +30,4 @@ ls -1 $RAW_FOLDER/*.fastq.gz |
     done
 
 # Move trimmed files to trimmed folder
-mv $RAW_FOLDER/*R1_trimmed.fastq.gz $TRIMMED_FOLDER
+mv $RAW_FOLDER/*_trimmed.fastq.gz $TRIMMED_FOLDER
