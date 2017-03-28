@@ -27,6 +27,7 @@ ls -1 $TRIMMED_FOLDER/*.fastq.gz |
 	  samtools view -Sb $i.bowtie2.sam > $i.bowtie2.unsorted.bam
 	  samtools sort -n -o $i.bowtie2.sorted.bam $i.bowtie2.unsorted.bam
 	  #samtools index $i.bowtie2.sorted.bam # note, if samtools sort -n is used, cannot index
+      rm $i.bowtie2.sam
 done
 
 # clean up space

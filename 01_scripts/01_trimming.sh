@@ -17,7 +17,7 @@ ls -1 $RAW_FOLDER/*.fastq.gz |
     while read i
     do
         echo "Trimming $i"
-        java -Xmx75G -jar $TRIMMOMATIC_PROGRAM SE \
+        java -Xmx35G -jar $TRIMMOMATIC_PROGRAM SE \
             -threads $NUM_CPU \
             -phred33 \
             "$i" \
