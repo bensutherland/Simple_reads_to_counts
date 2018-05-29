@@ -22,6 +22,7 @@ Trinity.fasta
 *.fastq.gz.unsorted.bam
 *.fastq.gz.sam
 *.bam
+*.sam
 *.bam.bai
 z-*
 *fastq*
@@ -32,3 +33,4 @@ z-*
 slurm-*
 clusters.txt
 counts.txt
+*.md5

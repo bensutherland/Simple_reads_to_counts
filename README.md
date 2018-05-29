@@ -48,18 +48,16 @@ fastqc 03_trimmed/*.paired.fastq.gz -o 03_trimmed/fastqc_trimmed
 multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
 ```
 
-## b) Multi-map reads against the reference transcriptome     
-
-requires `bowtie2` and `samtools`
+## 2) Multi-map reads against the reference transcriptome     
+Requires `bowtie2` and `samtools`
 
 Index decompressed reference with bowtie2 (only need to do once)
-
 `bowtie2-build --threads 5 -f $REFERENCE $REFERENCE`    
 
 
 ### Alignment
 
-Input files are in 03_trimmed/
+Input files are in `03_trimmed`
 Align each sample, inserting read group IDs.    
 Using samtools, convert to .bam, sort, index, and remove .sam.    
 
