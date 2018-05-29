@@ -25,37 +25,37 @@ Put raw *fastq.gz single-end data in 02_raw_data
 Run all jobs from the main directory  
 Job files are specific to Katak at IBIS (slurm), but with some minor editing can be adapted for other servers  
 
-# a) Trim for quality
+Quality check the data
+```
+mkdir 02_raw_data/fastq_raw
+fastqc 02_raw_data/*.fq.gz -o 02_raw_data/fastqc_raw/ -t 
+multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
+```
+
+
+## 1) Trim for quality
 Generates a fastq file for each library  
 requires `Trimmomatic`
 
 Edit 01_scripts/01_trimming.sh by providing the path to `trimmomatic`  
-Run locally:
+Single-end data: `01_scripts/01_trimming.sh`     
+Paired-end data: `01_scripts/01_trimming_PE.sh`   
+
+Quality check the output trimmed data    
 ```
-01_scripts/01_trimming.sh
+mkdir 03_trimmed/fastqc_trimmed
+fastqc 03_trimmed/*.paired.fastq.gz -o 03_trimmed/fastqc_trimmed
+multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
 ```
 
-Run on Katak: 
-```
-qsub 01_scripts/jobs/01_trimming_job.sh
-```
-
-# b) Multi-map reads against the reference transcriptome     
+## b) Multi-map reads against the reference transcriptome     
 
 requires `bowtie2` and `samtools`
 
-First index reference with bowtie2 (only need to do once)
+Index decompressed reference with bowtie2 (only need to do once)
 
-Locally:
-Ensure reference is in fasta format (not compressed), and change REFERENCE to the path to your reference you want to align against
-```
-bowtie2-build -f $REFERENCE $REFERENCE
-```
+`bowtie2-build --threads 5 -f $REFERENCE $REFERENCE`    
 
-On Katak:
-```
-sbatch 01_scripts/jobs/02_bowtie2_index_job.sh
-```
 
 ### Alignment
 
