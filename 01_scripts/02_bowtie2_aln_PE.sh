@@ -1,11 +1,19 @@
 #!/bin/bash
 # Map paired-end trimmed reads to reference genome with bowtie2 
 # Note: Requires that reference is indexed (see README.md) 
+TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
+
+# Copy script as it was run
+SCRIPT=$0
+NAME=$(basename $0)
+LOG_FOLDER="10_log_files"
+
+cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 
 # Global variables
 TRIMMED_FOLDER="03_trimmed"
 MAPPED_FOLDER="04_mapped"
-REFERENCE="/home/ben/Documents/genomes/GCF_002872995.1_Otsh_v1.0_cds_from_genomic.fna"
+REFERENCE="/home/ben/Documents/genomes/GCF_002872995.1_Otsh_v1.0_genomic.fna"
 
 # User variables
 NUM_THREADS="6"
