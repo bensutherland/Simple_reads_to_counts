@@ -34,3 +34,4 @@ slurm-*
 clusters.txt
 counts.txt
 *.md5
+10_log_files/*
