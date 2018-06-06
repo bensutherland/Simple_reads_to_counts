@@ -37,3 +37,4 @@ counts.txt
 10_log_files/*
 *.swp
 *.xprs
+*.csv

@@ -1,6 +1,4 @@
 Simple reads to counts
-Version 0.2  
-2017-03-07    
 
 ### Disclaimer
 This pipeline is made available **with no waranty of usefulness of any kind**.  
@@ -10,7 +8,7 @@ It was built within the Bernatchez Lab at IBIS, but is mainly for the authors us
 ## Overview:
   a) Remove adapters and trim for quality    
   b) Multi-map reads against reference transcriptome    
-  c) Use Corset to produce clusters for reduction of redundancy of transcriptome and produce counts     
+  c) Use eXpress to estimate gene expression levels per transcript using 'effective counts'  
   
 The expression level data can be imported into differential expression analysis software (e.g. edgeR).  
 
@@ -18,7 +16,7 @@ Requires the following:
 `Trimmomatic`   http://www.usadellab.org/cms/?page=trimmomatic  
 `bowtie2`       http://bowtie-bio.sourceforge.net/bowtie2/index.shtml        
 `samtools`      http://samtools.sourceforge.net    
-`corset`        https://github.com/Oshlack/Corset    
+`eXpress`       https://pachterlab.github.io/eXpress/index.html
 
 ## General comments
 Put raw *fastq.gz single-end data in 02_raw_data  
@@ -69,11 +67,17 @@ Using samtools, convert to .bam, sort, index, and remove .sam.
 Uses the sorted bam files to quantify transcript abundances.  
 `01_scripts/03_express.sh`  
 
+## 4) Extract effective counts from eXpress files into edgeR input
+Uses files `05_gx_levels/*.xprs`. Open the script `01_scripts/utility_scripts/prepare_gxlevels_matrix.R` in R and use interactively.   
+This will output a table entitled `out.matrix.csv`, which can be used as an input to edgeR.    
 
 
 
 
-## Just in case using alignments against reference genome
+
+
+Untested Section: 
+Just in case using alignments against reference genome
 **in progress**
 Obtain counts for each contig for each individual  
 requires `gmod_fasta2gff3.pl` and `htseq-count`
