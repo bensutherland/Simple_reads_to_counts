@@ -35,5 +35,5 @@ ls -1 $TRIMMED_FOLDER/*.paired.fastq.gz |
       rm $i.bowtie2.sam
 done
 
-# clean up space
-#mv ./$TRIMMED_FOLDER/*.sam ./$MAPPED_FOLDER/
+# Move output bam files into the mapped folder
+mv $TRIMMED_FOLDER/*.bam $MAPPED_FOLDER

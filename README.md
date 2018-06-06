@@ -61,37 +61,27 @@ Input files are in `03_trimmed`
 Align each sample, inserting read group IDs.    
 Using samtools, convert to .bam, sort, index, and remove .sam.    
 
-Locally:
 ```
 01_scripts/02_bowtie2_aln.sh
 ```
 
-On Katak: 
-```
-qsub 01_scripts/jobs/02_bowtie_align_job.sh 
-```
+## 3) Quantify alignments using eXpress  
+Uses the sorted bam files to quantify transcript abundances.  
+`01_scripts/03_express.sh`  
 
 
 
 
-## Below to be updated (2017-03-07)    
 
-# e) obtain counts for each contig for each individual  
+## Just in case using alignments against reference genome
+**in progress**
+Obtain counts for each contig for each individual  
 requires `gmod_fasta2gff3.pl` and `htseq-count`
 
 Input files are to be in 06_mapped/
 
 Edit 01_scripts/05_GXlevels.sh by providing the path to gmod_fasta2gff3.pl and the path to the assembled transcriptome to convert it to a .gff3 file for use by `htseq-count`
 
-Locally:
-```
-01_scripts/05_GXlevels.sh
-```
-
-On Katak: 
-```
-qsub 01_scripts/jobs/05_GXlevels_job.sh
-```
+`01_scripts/05_GXlevels.sh`
 
 The output of the HT-seq script should be ready for input into your preferred analysis pipeline.
-
