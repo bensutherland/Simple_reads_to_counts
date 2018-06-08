@@ -2,17 +2,13 @@
 # Map trimmed reads to reference genome with bowtie2 
 # Note: Requires that reference is indexed (see README.md) 
 
-# Load modules
-module load bowtie/2.1.0
-module load samtools/1.3
-
 # Global variables
 TRIMMED_FOLDER="03_trimmed"
 MAPPED_FOLDER="04_mapped"
-REFERENCE="/home/bensuth/00_resources/sfontinalis_contigs.fasta"
+REFERENCE="/home/ben/Documents/genomes/GCF_002872995.1_Otsh_v1.0_cds_from_genomic.fna"
 
 # User variables
-NUM_THREADS="10"
+NUM_THREADS="4"
 
 # Map reads and add RG
 ls -1 $TRIMMED_FOLDER/*.fastq.gz |
