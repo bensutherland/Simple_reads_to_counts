@@ -27,4 +27,4 @@ ls -1 $TRIMMED_FOLDER/*.fastq.gz |
 done
 
 # clean up space
-#mv ./$TRIMMED_FOLDER/*.sam ./$MAPPED_FOLDER/
+mv ./$TRIMMED_FOLDER/*.bam ./$MAPPED_FOLDER/
