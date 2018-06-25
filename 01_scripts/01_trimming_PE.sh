@@ -8,7 +8,7 @@ VECTORS="./00_archive/univec_trimmomatic.fasta"
 TRIMMOMATIC_PROGRAM="/home/ben/Programs/trimmomatic-0.36.jar"
 
 # User set variable
-NUM_CPU="4"
+NUM_CPU="2"
 
 # Filtering and trimming data with trimmomatic
 ls -1 $RAW_FOLDER/*.fq.gz | 

@@ -19,9 +19,8 @@ Requires the following:
 `eXpress`       https://pachterlab.github.io/eXpress/index.html
 
 ## General comments
-Put raw *fastq.gz single-end data in 02_raw_data  
-Run all jobs from the main directory  
-Job files are specific to Katak at IBIS (slurm), but with some minor editing can be adapted for other servers  
+Put raw fastq.gz single-end data in `02_raw_data`  
+Run all scripts from the main directory  
 
 Quality check the data
 ```
@@ -40,6 +39,10 @@ Single-end data: `01_scripts/01_trimming.sh`
 Paired-end data: `01_scripts/01_trimming_PE.sh`   
 
 Quality check the output trimmed data    
+If paired-end data, make a new directory for the 'single' files, as these will not be used.     
+`mkdir 03_trimmed/singles`
+`mv 03_trimmed/*.single.* 03_trimmed/singles`
+
 ```
 mkdir 03_trimmed/fastqc_trimmed
 fastqc 03_trimmed/*.paired.fastq.gz -o 03_trimmed/fastqc_trimmed

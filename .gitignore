@@ -39,3 +39,5 @@ counts.txt
 *.xprs
 *.csv
 *.Rhistory
+*.gtf
+04_mapped/tmp*
