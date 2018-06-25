@@ -17,6 +17,8 @@ Requires the following:
 `bowtie2`       http://bowtie-bio.sourceforge.net/bowtie2/index.shtml        
 `samtools`      http://samtools.sourceforge.net    
 `eXpress`       https://pachterlab.github.io/eXpress/index.html
+`hisat2`        https://ccb.jhu.edu/software/hisat2/index.shtml    
+`stringtie`     https://ccb.jhu.edu/software/stringtie/index.shtml    
 
 ## General comments
 Put raw fastq.gz single-end data in `02_raw_data`  
@@ -28,7 +30,6 @@ mkdir 02_raw_data/fastq_raw
 fastqc 02_raw_data/*.fq.gz -o 02_raw_data/fastqc_raw/ -t 
 multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
-
 
 ## 1) Trim for quality
 Generates a fastq file for each library  
@@ -50,6 +51,8 @@ multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
 ```
 
 ## 2) Multi-map reads against the reference transcriptome     
+If your data will use a reference genome, skip to step (5).    
+
 Requires `bowtie2` and `samtools`
 
 Index decompressed reference with bowtie2 (only need to do once)
@@ -74,10 +77,25 @@ Uses the sorted bam files to quantify transcript abundances.
 Uses files `05_gx_levels/*.xprs`. Open the script `01_scripts/utility_scripts/prepare_gxlevels_matrix.R` in R and use interactively.   
 This will output a table entitled `out.matrix.csv`, which can be used as an input to edgeR.    
 
+## 5) Multi-map reads against a reference genome
+Use the script `02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to the genome using hisat2, and with samtools sorting that will be usable for stringtie input.    
+
+## 6) Quantify mappings using stringtie
+### Assemble transcript using a reference genome GTF as a guide
+Use the script `03_stringtie.sh`. Update the field for the gff file with your gff. 
+
+### Merge transcripts altogether and identify novel and known transcripts
+To do this, you need top have `mergelist.txt`, which contains a name of each sample gtf file, one file on each line. 
+
+Use the `01_scripts/03b_create_mergelist.sh` automated script to create your mergelist.txt in the `00_archive`. This will be used in the next step to collect all of your sample gtf files.    
+
+Use the `01_scripts/03c_stringtie_merge.sh` to compare your sample gtf with each other, and with the reference genome gtf to identify novel and known transcripts in a non-redundant final, merged gtf.  
 
 
 
 
+
+## END 
 
 Untested Section: 
 Just in case using alignments against reference genome
