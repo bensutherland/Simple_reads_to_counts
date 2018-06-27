@@ -41,3 +41,11 @@ counts.txt
 *.Rhistory
 *.gtf
 04_mapped/tmp*
+05_gx_levels/*
+*.refmap
+*.tmap
+*.loci
+*.stats
+*.tracking
+00_archive/mergelist.txt
+00_archive/sample_lst.txt

@@ -80,18 +80,35 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 ## 5) Multi-map reads against a reference genome
 Use the script `02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to the genome using hisat2, and with samtools sorting that will be usable for stringtie input.    
 
-## 6) Quantify mappings using stringtie
-### Assemble transcript using a reference genome GTF as a guide
-Use the script `03_stringtie.sh`. Update the field for the gff file with your gff. 
+## 6) Generate a reference and de novo gff using stringtie 
+### a) Assemble transcript using a reference genome GTF as a guide
+This will use as an input the reference genome GTF, and alignment .bam files. For each sample, stringtie will assemble transcripts based on the reference genome as well as novel transcripts.    
+Launch the script `01_scripts/03a_stringtie_bam_to_gtf.sh`.    
+Update the REFERENCE_GFF with the gff for the reference genome assembly.    
 
-### Merge transcripts altogether and identify novel and known transcripts
-To do this, you need top have `mergelist.txt`, which contains a name of each sample gtf file, one file on each line. 
+### b) Prepare necessary files for stringtie merge 
+To do this, you need to generate the file `mergelist.txt`, which contains a name of each sample gtf file, one file on each line.     
 
-Use the `01_scripts/03b_create_mergelist.sh` automated script to create your mergelist.txt in the `00_archive`. This will be used in the next step to collect all of your sample gtf files.    
+Use the `01_scripts/03b_create_mergelist.sh` automated script to create your mergelist.txt in the `00_archive` based on the .gtf files in `04_mapped`.     
 
-Use the `01_scripts/03c_stringtie_merge.sh` to compare your sample gtf with each other, and with the reference genome gtf to identify novel and known transcripts in a non-redundant final, merged gtf.  
+### c) Merge transcripts from all samples guided by the reference gff   
+Use the `01_scripts/03c_stringtie_merge.sh` to merge sample gtfs using the reference genome as a guide to identify novel and known transcripts. This will produce a non-redundant final, merged gtf.  
+The output will be called `04_mapped/stringtie_merged.gtf`    
 
+### d) Run gffcompare to generate statistics based on your de novo and reference transcripts
+`./01_scripts/03d_gffcompare.sh`    
 
+## 7) Extract read counts from bam files using the new gff
+### a) Use stringtie to extract read counts into ctab format
+Per sample, create a folder in `05_gx_levels`, within which a new .gtf and ctab files will be produced.   
+`01_scripts/04_stringtie_estimate_abundances.sh`     
+
+### b) Create sample list for extracting expression values
+Per sample, produce a text file that contains the sample name, and the relative path to the sample.  This will be used in the next step.     
+`05_build_sample_lst.sh`
+
+### c) Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
+Use `prepDE.py` (see https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual).    
 
 
 
