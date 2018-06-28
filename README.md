@@ -109,7 +109,7 @@ Per sample, produce a text file that contains the sample name, and the relative 
 
 ### c) Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
 Use `prepDE.py` (see https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual).    
-
+`prepDE.py -i 00_archive/sample_lst.txt -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 150`
 
 
 ## END 
