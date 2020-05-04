@@ -8,11 +8,17 @@ VECTORS="./00_archive/univec_trimmomatic.fasta"
 TRIMMOMATIC_PROGRAM="/home/ben/Programs/trimmomatic-0.36.jar"
 
 # User set variable
-NUM_CPU="2"
+NUM_CPU="12"
+EXTN="fastq.gz"
 
-# Filtering and trimming data with trimmomatic
-ls -1 $RAW_FOLDER/*.fq.gz | 
-    perl -pe 's/\_[12]\.fq\.gz//' |
+# Filtering and trimming data with trimmomatic (either fastq.gz or fq.gz)
+ls -1 $RAW_FOLDER/{*.fq.gz,*.fastq.gz} | 
+
+    # Remove extension
+    perl -pe 's/[12]\.fq\.gz//' |
+    perl -pe 's/[12]\.fastq\.gz//' |
+    
+    # Remove already-treated samples
     grep -vE "paired|single" |
     sort -u |
     while read i
@@ -21,12 +27,12 @@ ls -1 $RAW_FOLDER/*.fq.gz |
         java -Xmx35G -jar $TRIMMOMATIC_PROGRAM PE \
             -threads $NUM_CPU \
             -phred33 \
-            "$i"_1.fq.gz \
-            "$i"_2.fq.gz \
-            "$i"_1.paired.fastq.gz \
-            "$i"_1.single.fastq.gz \
-            "$i"_2.paired.fastq.gz \
-            "$i"_2.single.fastq.gz \
+            "$i"1.$EXTN \
+            "$i"2.$EXTN \
+            "$i"1.paired.fq.gz \
+            "$i"1.single.fq.gz \
+            "$i"2.paired.fq.gz \
+            "$i"2.single.fq.gz \
             ILLUMINACLIP:$VECTORS:2:30:10 \
             SLIDINGWINDOW:20:2 \
             LEADING:2 \
@@ -35,5 +41,5 @@ ls -1 $RAW_FOLDER/*.fq.gz |
     done
 
 # Move trimmed files to trimmed folder
-mv $RAW_FOLDER/*single*.fastq.gz $TRIMMED_FOLDER
-mv $RAW_FOLDER/*paired*.fastq.gz $TRIMMED_FOLDER
+mv $RAW_FOLDER/*single.fq.gz $TRIMMED_FOLDER
+mv $RAW_FOLDER/*paired.fq.gz $TRIMMED_FOLDER
