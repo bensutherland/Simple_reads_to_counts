@@ -49,3 +49,5 @@ counts.txt
 *.tracking
 00_archive/mergelist.txt
 00_archive/sample_lst.txt
+*.html
+*.zip
