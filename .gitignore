@@ -25,7 +25,7 @@ Trinity.fasta
 *.sam
 *.bam.bai
 z-*
-*fastq*
+*.fastq
 *vcf*
 *.gff3
 *.test

@@ -26,7 +26,6 @@ Run all scripts from the main directory
 
 Quality check the data
 ```
-mkdir 02_raw_data/fastq_raw
 fastqc 02_raw_data/*.fq.gz -o 02_raw_data/fastqc_raw/ -t 
 multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
