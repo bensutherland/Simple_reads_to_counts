@@ -39,15 +39,13 @@ Single-end data: `01_scripts/01_trimming.sh`
 Paired-end data: `01_scripts/01_trimming_PE.sh`   
 
 Quality check the output trimmed data    
-If paired-end data, make a new directory for the 'single' files, as these will not be used.     
-`mkdir 03_trimmed/singles`
-`mv 03_trimmed/*.single.* 03_trimmed/singles`
+If paired-end data, move your singleton trimmed reads to a separate directory; these will not be used:        
+`mv 03_trimmed/*.single.fq.gz 03_trimmed/singles`       
 
-```
-mkdir 03_trimmed/fastqc_trimmed
-fastqc 03_trimmed/*.paired.fastq.gz -o 03_trimmed/fastqc_trimmed
-multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
-```
+Then run fastqc on the paired trimmed data:      
+`fastqc 03_trimmed/*.paired.fastq.gz -o 03_trimmed/fastqc_trimmed`         
+`multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed`       
+
 
 ## 2) Multi-map reads against the reference transcriptome     
 If your data will use a reference genome, skip to step (5).    
