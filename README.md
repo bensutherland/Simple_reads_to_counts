@@ -46,7 +46,6 @@ Then run fastqc on the paired trimmed data:
 `fastqc 03_trimmed/*.paired.fastq.gz -o 03_trimmed/fastqc_trimmed`         
 `multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed`       
 
-
 ## 2) Multi-map reads against the reference transcriptome     
 If your data will use a reference genome, skip to step (5).    
 
