@@ -5,7 +5,7 @@
 RAW_FOLDER="02_raw_data"
 TRIMMED_FOLDER="03_trimmed"
 VECTORS="./00_archive/univec_trimmomatic.fasta"
-TRIMMOMATIC_PROGRAM="/home/ben/Programs/trimmomatic-0.36.jar"
+TRIMMOMATIC_PROGRAM="/home/bsutherland/programs/Trimmomatic-0.39/trimmomatic-0.39.jar"
 
 # User set variable
 NUM_CPU="12"
