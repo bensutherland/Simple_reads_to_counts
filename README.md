@@ -79,31 +79,31 @@ Use the script `02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to t
 Note: this currently requires that your filenames end in `_R[1|2].paired.fq.gz`        
 
 ### 3B) Generate a reference and de novo gff using stringtie 
-#### 3Bi) Assemble transcript using a reference genome GTF as a guide
+#### 3B.i) Assemble transcript using a reference genome GTF as a guide
 Download the reference genome GTF and GFF from NCBI, place in reference genome folder, and use gunzip to decompress both.     
 Update the script `01_scripts/03a_stringtie_bam_to_gtf.sh` to provide the full path to the gff.      
 Launch the script, which will use the sorted bam files and create a gtf for each bam file.        
 For each sample, stringtie will assemble transcripts based on the reference genome annotation and will find novel transcripts (unannotated) in the reference genome.    
 
-#### 3Bii) Prepare necessary files for stringtie merge 
-To do this, you need to generate the file `mergelist.txt`, which contains a name of each sample gtf file, one file on each line.     
+#### 3B.ii) Prepare necessary files for stringtie merge 
+Create a `mergelist.txt` and save to `00_archive`. The mergelist will contain each sample's gtf filename (one file per line) using:        
+`01_scripts/03b_create_mergelist.sh`       
 
-Use the `01_scripts/03b_create_mergelist.sh` automated script to create your mergelist.txt in the `00_archive` based on the .gtf files in `04_mapped`.     
+#### 3B.iii) Merge transcripts from all samples, guided by the reference gff   
+Merge sample gtfs into a non-redundant, final merged gtf (i.e., `04_mapped/stringtie_merged.gtf`). Will use the reference genome as a guide to identify novel and known transcripts:        
+`01_scripts/03c_stringtie_merge.sh`        
 
-### c) Merge transcripts from all samples guided by the reference gff   
-Use the `01_scripts/03c_stringtie_merge.sh` to merge sample gtfs using the reference genome as a guide to identify novel and known transcripts. This will produce a non-redundant final, merged gtf.  
-The output will be called `04_mapped/stringtie_merged.gtf`    
-
-### d) Run gffcompare to generate statistics based on your de novo and reference transcripts
+#### 3B.iv) Run gffcompare to generate statistics based on your de novo and reference transcripts
 `./01_scripts/03d_gffcompare.sh`    
 
-## 7) Extract read counts from bam files using the new gff
-### a) Use stringtie to extract read counts into ctab format
-Per sample, create a folder in `05_gx_levels`, within which a new .gtf and ctab files will be produced.   
+
+### 4) Extract read counts from bam files using a gtf
+#### 4.a) Extract read counts into ctab format with stringtie
+Estimate abundances with stringtie. Per sample, a folder will be created in `05_gx_levels` with new .gtf and ctab files:     
 `01_scripts/04_stringtie_estimate_abundances.sh`     
 
 ### b) Create sample list for extracting expression values
-Per sample, produce a text file that contains the sample name, and the relative path to the sample.  This will be used in the next step.     
+Generate a text file with all sample names and relative paths:      
 `05_build_sample_lst.sh`
 
 ### c) Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
@@ -111,18 +111,3 @@ Use `prepDE.py` (see https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual
 `prepDE.py -i 00_archive/sample_lst.txt -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 150`
 
 
-## END 
-
-Untested Section: 
-Just in case using alignments against reference genome
-**in progress**
-Obtain counts for each contig for each individual  
-requires `gmod_fasta2gff3.pl` and `htseq-count`
-
-Input files are to be in 06_mapped/
-
-Edit 01_scripts/05_GXlevels.sh by providing the path to gmod_fasta2gff3.pl and the path to the assembled transcriptome to convert it to a .gff3 file for use by `htseq-count`
-
-`01_scripts/05_GXlevels.sh`
-
-The output of the HT-seq script should be ready for input into your preferred analysis pipeline.
