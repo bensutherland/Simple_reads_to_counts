@@ -1,5 +1,5 @@
 #!/bin/bash
-# Use ref genome gtf to create known and unannotated output gtf for each sample
+# Use ref genome gff to create known and unannotated output gtf for each sample
 # Note: Requires sorted .bam 
 TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
 
@@ -12,14 +12,14 @@ cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 
 # Global variables
 MAPPED_FOLDER="04_mapped"
-REFERENCE_GFF="/home/ben/Documents/genomes/GCF_002872995.1_Otsh_v1.0_genomic.gff"
+REFERENCE_GFF="/scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.gff"
 
 # User variables
-NUM_THREADS="6"
+NUM_THREADS="20"
 
 # Run Stringtie 
 ls -1 $MAPPED_FOLDER/*.sorted.bam |
-	perl -pe 's/\_L2\.hisat2\.sorted\.bam//' |
+	perl -pe 's/\.hisat2\.sorted\.bam//' |
 	sort -u |
 	while read i
 	do
@@ -28,6 +28,6 @@ ls -1 $MAPPED_FOLDER/*.sorted.bam |
 	  label=$(echo $name)
 
           # Run stringtie per sample
-	  stringtie -p $NUM_THREADS -G $REFERENCE_GFF -o $i".gtf" -l $label $i"_L2.hisat2.sorted.bam" 
+	  stringtie -p $NUM_THREADS -G $REFERENCE_GFF -o $i".gtf" -l $label $i".hisat2.sorted.bam" 
 done
 

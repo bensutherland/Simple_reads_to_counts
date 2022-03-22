@@ -70,7 +70,7 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 
 ## Using a reference genome 
 _If using reference transcriptome use previous section_
-## 2A) Multi-map reads against a reference genome
+### 3A) Multi-map reads against a reference genome
 First you must unzip the gz assembly to an uncompressed version, as it appears this is required for hisat2-build.    
 Once decompressed, index the reference genome with:      
 `hisat2-build -p 12 GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna GCF_902806645.1_cgigas_uk_roslin_v1_genomic`             
@@ -78,14 +78,14 @@ Once decompressed, index the reference genome with:
 Use the script `02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to the genome using hisat2, and sort the bam file with samtools. This will require that you update the user variable $REFERENCE with the full path and filename of the reference genome.     
 Note: this currently requires that your filenames end in `_R[1|2].paired.fq.gz`        
 
+### 3B) Generate a reference and de novo gff using stringtie 
+#### 3Bi) Assemble transcript using a reference genome GTF as a guide
+Download the reference genome GTF and GFF from NCBI, place in reference genome folder, and use gunzip to decompress both.     
+Update the script `01_scripts/03a_stringtie_bam_to_gtf.sh` to provide the full path to the gff.      
+Launch the script, which will use the sorted bam files and create a gtf for each bam file.        
+For each sample, stringtie will assemble transcripts based on the reference genome annotation and will find novel transcripts (unannotated) in the reference genome.    
 
-## 6) Generate a reference and de novo gff using stringtie 
-### a) Assemble transcript using a reference genome GTF as a guide
-This will use as an input the reference genome GTF, and alignment .bam files. For each sample, stringtie will assemble transcripts based on the reference genome as well as novel transcripts.    
-Launch the script `01_scripts/03a_stringtie_bam_to_gtf.sh`.    
-Update the REFERENCE_GFF with the gff for the reference genome assembly.    
-
-### b) Prepare necessary files for stringtie merge 
+#### 3Bii) Prepare necessary files for stringtie merge 
 To do this, you need to generate the file `mergelist.txt`, which contains a name of each sample gtf file, one file on each line.     
 
 Use the `01_scripts/03b_create_mergelist.sh` automated script to create your mergelist.txt in the `00_archive` based on the .gtf files in `04_mapped`.     
