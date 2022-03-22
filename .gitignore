@@ -26,6 +26,7 @@ Trinity.fasta
 *.bam.bai
 z-*
 *.fastq
+multiqc_data*
 *vcf*
 *.gff3
 *.test
