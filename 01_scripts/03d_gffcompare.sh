@@ -1,6 +1,5 @@
 #!/bin/bash
-# Use ref genome gtf to create known and unannotated output gtf for each sample
-# Note: Requires sorted .bam 
+# Generate statistics based on your de novo and reference transcripts
 TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
 
 # Copy script as it was run
@@ -12,7 +11,7 @@ cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 
 # Global variables
 MAPPED_FOLDER="04_mapped"
-REFERENCE_GFF="/home/ben/Documents/genomes/GCF_002872995.1_Otsh_v1.0_genomic.gff"
+REFERENCE_GFF="/scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.gff"
 MERGELIST="00_archive/mergelist.txt"
 
 # User variables

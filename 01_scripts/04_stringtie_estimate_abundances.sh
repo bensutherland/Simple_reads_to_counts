@@ -17,11 +17,13 @@ GXLEVELS_FOLDER="05_gx_levels"
 
 
 # User variables
-NUM_THREADS="6"
+NUM_THREADS="12"
 
 # Run Stringtie 
 ls -1 $MAPPED_FOLDER/*.gtf |
-        grep -vE 'stringtie_merged.gtf' |
+        
+	# While identifying sample names, ignore the merged.gtf 
+	grep -vE 'stringtie_merged.gtf' |
 	perl -pe 's/\.gtf//' |
 	sort -u |
 	while read i
@@ -35,6 +37,6 @@ ls -1 $MAPPED_FOLDER/*.gtf |
           mkdir $GXLEVELS_FOLDER/$name
           
           # Run stringtie per sample to produce output gtf and ballgown tables
-	  stringtie -e -B -p $NUM_THREADS -G $MAPPED_FOLDER/$MERGED_GFF -o $GXLEVELS_FOLDER/$name/$name".gtf" $MAPPED_FOLDER/$name"_L2.hisat2.sorted.bam"
+	  stringtie -e -B -p $NUM_THREADS -G $MAPPED_FOLDER/$MERGED_GFF -o $GXLEVELS_FOLDER/$name/$name".gtf" $MAPPED_FOLDER/$name".hisat2.sorted.bam"
 done
 
