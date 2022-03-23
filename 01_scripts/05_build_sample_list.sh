@@ -1,6 +1,6 @@
 #!/bin/bash
-# Use ref genome gtf to create known and unannotated output gtf for each sample
-# Note: Requires sorted .bam 
+# Build a sample list based on the nested folders produced by stringtie estimate abundances
+
 TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
 
 # Copy script as it was run
@@ -31,7 +31,7 @@ ls -1 $MAPPED_FOLDER/*.gtf |
           # Generate basename
           name=$(basename $i)
 
-          echo $name $GXLEVELS_FOLDER/$name/$name".gtf" >> 00_archive/sample_lst.txt
+          echo $name $GXLEVELS_FOLDER/$name/$name".gtf" >> 00_archive/sample_list.txt
           
 done
 

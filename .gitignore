@@ -48,7 +48,6 @@ counts.txt
 *.loci
 *.stats
 *.tracking
-00_archive/mergelist.txt
-00_archive/sample_lst.txt
+*.txt
 *.html
 *.zip
