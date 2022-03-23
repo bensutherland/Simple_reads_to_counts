@@ -98,16 +98,21 @@ Merge sample gtfs into a non-redundant, final merged gtf (i.e., `04_mapped/strin
 
 
 ### 4) Extract read counts from bam files using a gtf
-#### 4.a) Extract read counts into ctab format with stringtie
-Estimate abundances with stringtie. Per sample, a folder will be created in `05_gx_levels` with new .gtf and ctab files:     
+#### 4A) Extract read counts into ctab format with stringtie
+Estimate abundances with stringtie:        
 `01_scripts/04_stringtie_estimate_abundances.sh`     
+Per sample, a folder will be created in `05_gx_levels` with a new .gtf and ctab files.       
 
-### b) Create sample list for extracting expression values
+#### 4B) Create sample list for extracting expression values
 Generate a text file with all sample names and relative paths:      
-`05_build_sample_lst.sh`
+`01_scripts/05_build_sample_lst.sh`      
+...will output to `00_archive/sample_lst.txt`       
 
-### c) Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
-Use `prepDE.py` (see https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual).    
-`prepDE.py -i 00_archive/sample_lst.txt -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 150`
+#### 4C) Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
+Use `prepDE.py` script from stringtie to generate two csv files, which contain the count matrices for genes and transcripts, using coverage values from the output of `stringtie -e` command:      
+`prepDE.py -i 00_archive/sample_list.txt -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 150`
+note: as needed, update the length flag with the average read length.      
 
 
+
+Next: gene expression analysis (edgeR or deseq2 instructions)     
