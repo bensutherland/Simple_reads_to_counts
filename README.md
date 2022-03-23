@@ -48,8 +48,9 @@ Then run fastqc on the paired trimmed data:
 _skip to next section if using a reference genome_
 ### 2A) Multi-map reads against the reference transcriptome     
 #### Index
-Index decompressed reference with bowtie2 (only need to do once)
-`bowtie2-build --threads 5 -f $REFERENCE $REFERENCE`    
+Update REFERENCE variable and index decompressed reference transcriptome with bowtie2.    
+`01_scripts/01_bowtie2_build.sh`       
+...this only needs to be done once for a reference.      
 
 #### Align
 Align each sample from `03_trimmed`, inserting read group IDs.    
