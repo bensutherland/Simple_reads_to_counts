@@ -31,14 +31,11 @@ multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
 
 ### 1) Trim for quality
-Generates a fastq file for each library  
-requires `Trimmomatic`
+Generates a fastq file for each library. Edit the path to trimmomatic and run, either:        
+Single-end: `01_scripts/01_trimming.sh`     
+Paired-end: `01_scripts/01_trimming_PE.sh`      
 
-Edit 01_scripts/01_trimming.sh by providing the path to `trimmomatic`  
-Single-end data: `01_scripts/01_trimming.sh`     
-Paired-end data: `01_scripts/01_trimming_PE.sh`   
-
-Quality check the output trimmed data    
+#### Quality check the output trimmed data     
 If paired-end data, move your singleton trimmed reads to a separate directory; these will not be used:        
 `mv 03_trimmed/*.single.fq.gz 03_trimmed/singles`       
 
