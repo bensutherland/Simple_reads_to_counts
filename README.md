@@ -54,8 +54,9 @@ Update REFERENCE variable and index decompressed reference transcriptome with bo
 
 #### Align
 Align each sample from `03_trimmed`, inserting read group IDs.    
-Using samtools, convert to .bam, sort, index, and delete .sam.    
-`01_scripts/02_bowtie2_aln.sh`       
+Using samtools, convert to .bam, sort, index, and delete .sam and unsorted .bam.    
+Single-end: `01_scripts/02_bowtie2_aln_SE.sh`       
+Paired-end: `01_scripts/02_bowtie2_aln_PE.sh`        
 
 ### 2B) Quantify alignments using eXpress  
 Uses the sorted bam files to quantify transcript abundances.       
