@@ -72,9 +72,11 @@ _If using reference transcriptome use previous section_
 ### 3A) Multi-map reads against a reference genome
 First you must unzip the gz assembly to an uncompressed version, as it appears this is required for hisat2-build.    
 Once decompressed, index the reference genome with:      
-`hisat2-build -p 12 GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna GCF_902806645.1_cgigas_uk_roslin_v1_genomic`             
+`hisat2-build -p 12 GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna`             
 
-Use the script `02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to the genome using hisat2, and sort the bam file with samtools. This will require that you update the user variable $REFERENCE with the full path and filename of the reference genome.     
+Note: make sure to include the .fna in the 'base name' so that it will remain functional with subsequent scripts.    
+
+Use the script `01_scripts/02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to the genome using hisat2, and sort the bam file with samtools. This will require that you update the user variable $REFERENCE with the full path and filename of the reference genome.     
 Note: this currently requires that your filenames end in `_R[1|2].paired.fq.gz`        
 
 ### 3B) Generate a reference and de novo gff using stringtie 
