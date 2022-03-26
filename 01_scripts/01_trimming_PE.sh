@@ -8,7 +8,7 @@ VECTORS="./00_archive/univec_trimmomatic.fasta"
 TRIMMOMATIC_PROGRAM="/home/bsutherland/programs/Trimmomatic-0.39/trimmomatic-0.39.jar"
 
 # User set variable
-NUM_CPU="12"
+NUM_CPU="24"
 EXTN="fastq.gz"
 
 # Filtering and trimming data with trimmomatic (either fastq.gz or fq.gz)

@@ -34,9 +34,15 @@ ls -1 $TRIMMED_FOLDER/*.paired.fq.gz |
 	  name=$(basename $i)
 	  label=$(echo $name)
 	  ID="@RG\tID:${label}\tSM:${label}\tPL:Illumina"
-	  bowtie2 --end-to-end -k 40 --threads $NUM_THREADS --rg-id $ID -x $REFERENCE -1 $i"_R1.paired.fq.gz" -2 $i"_R2.paired.fq.gz" -S $i.bowtie2.sam
+	  
+	  # Align
+	  bowtie2 --local -k 40 --threads $NUM_THREADS --rg-id $ID -x $REFERENCE -1 $i"_R1.paired.fq.gz" -2 $i"_R2.paired.fq.gz" -S $i.bowtie2.sam
+	  
+	  # Sort
 	  samtools view -Sb $i.bowtie2.sam > $i.bowtie2.unsorted.bam
 	  samtools sort -n -o $i.bowtie2.sorted.bam $i.bowtie2.unsorted.bam
+      
+      # Remove sam and unsorted bam files
       rm $i.bowtie2.sam
       rm $i.bowtie2.unsorted.bam
 done
