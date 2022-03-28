@@ -15,7 +15,7 @@ cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 # Global variables
 TRIMMED_FOLDER="03_trimmed"
 MAPPED_FOLDER="04_mapped"
-REFERENCE="/scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic"
+REFERENCE="/scratch2/bsutherland/ref_genomes/GCA_009026015.1_ASM902601v1_genomic.fna"
 
 # User variables
 NUM_THREADS="24"

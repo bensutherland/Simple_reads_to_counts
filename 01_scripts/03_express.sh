@@ -4,8 +4,8 @@
 # Set environment variables
 MAPPED_FOLDER="04_mapped"
 COUNT_FOLDER="05_gx_levels"
-EXPRESS="/home/ben/Programs/express-1.5.1-linux_x86_64/express"
-REFERENCE="/home/ben/Documents/genomes/GCF_002872995.1_Otsh_v1.0_cds_from_genomic.fna"
+EXPRESS="/home/bsutherland/programs/express-1.5.1-linux_x86_64/express"
+REFERENCE="/scratch2/bsutherland/ref_txomes/all_unigenes_155.fasta"
 
 # Produce counts per individual with eXpress 
 ls -1 $MAPPED_FOLDER/*.sorted.bam |
@@ -21,5 +21,6 @@ ls -1 $MAPPED_FOLDER/*.sorted.bam |
         # Move the result files into the count folder
         mv results.xprs $COUNT_FOLDER/"$name"_results.xprs
         mv params.xprs $COUNT_FOLDER/"$name"_params.xprs 
+
     done
 

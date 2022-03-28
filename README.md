@@ -16,7 +16,7 @@ Requires the following:
 `Trimmomatic`   http://www.usadellab.org/cms/?page=trimmomatic  
 `bowtie2`       http://bowtie-bio.sourceforge.net/bowtie2/index.shtml        
 `samtools`      http://samtools.sourceforge.net    
-`eXpress`       https://pachterlab.github.io/eXpress/index.html
+`eXpress`       https://pachterlab.github.io/eXpress/index.html        
 `hisat2`        https://ccb.jhu.edu/software/hisat2/index.shtml    
 `stringtie`     https://ccb.jhu.edu/software/stringtie/index.shtml    
 
