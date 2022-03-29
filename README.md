@@ -59,7 +59,7 @@ Single-end: `01_scripts/02_bowtie2_aln_SE.sh`
 Paired-end: `01_scripts/02_bowtie2_aln_PE.sh`        
 
 ### 2B) Quantify alignments using eXpress  
-Uses the sorted bam files to quantify transcript abundances.       
+Use the sorted bam files to quantify transcript abundances.       
 `01_scripts/03_express.sh`      
 
 ### 2C) Extract effective counts from eXpress files into edgeR input
