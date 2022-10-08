@@ -2,12 +2,11 @@ Simple reads to counts
 
 ### Disclaimer
 This pipeline is made available **with no waranty of usefulness of any kind**.  
-Purpose: Multi-mapping alignment of single-end reads to a reference transcriptome and quantification    
-It was built within the Bernatchez Lab at IBIS, but is mainly for the authors use and not rigorously tested for others    
+Purpose: Multi-map reads to a reference transcriptome or genome to quantified read counts.       
 
 ## Overview:
   a) Remove adapters and trim for quality    
-  b) Multi-map reads against reference transcriptome    
+  b) Multi-map reads against reference transcriptome or genome    
   c) Use eXpress to estimate gene expression levels per transcript using 'effective counts'  
   
 The expression level data can be imported into differential expression analysis software (e.g. edgeR).  
@@ -20,7 +19,7 @@ Requires the following:
 `hisat2`        https://ccb.jhu.edu/software/hisat2/index.shtml    
 `stringtie`     https://ccb.jhu.edu/software/stringtie/index.shtml    
 
-## General comments
+## 00. Prepare data
 Put raw fastq.gz single-end data in `02_raw_data`  
 Run all scripts from the main directory  
 
@@ -30,23 +29,28 @@ fastqc 02_raw_data/*.fastq.gz -o 02_raw_data/fastqc_raw/ -t 12
 multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
 
-### 1) Trim for quality
-Generates a fastq file for each library. Edit the path to trimmomatic and run, either:        
+### 01. Trim for quality and adaptors
+Per sample, trim for quality for SE or PE data. Edit the path to trimmomatic and run:        
 Single-end: `01_scripts/01_trimming.sh`     
 Paired-end: `01_scripts/01_trimming_PE.sh`      
 
-#### Quality check the output trimmed data     
-If paired-end data, move your singleton trimmed reads to a separate directory; these will not be used:        
-`mv 03_trimmed/*.single.fq.gz 03_trimmed/singles`       
+Quality check the trimmed data     
+```
+## PE only
+# Move singleton output aside, not to be used
+mv 03_trimmed/*.single.fq.gz 03_trimmed/singles       
 
-Then run fastqc on the paired trimmed data:      
-`fastqc 03_trimmed/*.paired.fq.gz -o 03_trimmed/fastqc_trimmed -t 12`         
-`multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed`       
+## All
+fastqc 03_trimmed/*.paired.fq.gz -o 03_trimmed/fastqc_trimmed -t 12         
+multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed       
+
+```
 
 
 ## Using a reference transcriptome
-_skip to next section if using a reference genome_
-### 2A) Multi-map reads against the reference transcriptome     
+[if using a reference genome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-genome)       
+
+### 02.A. Multi-map reads against the reference transcriptome     
 #### Index
 Update REFERENCE variable and index decompressed reference transcriptome with bowtie2.    
 `01_scripts/01_bowtie2_build.sh`       
@@ -68,6 +72,7 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 
 
 ## Using a reference genome 
+[if using a reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-transcriptome)
 _If using reference transcriptome use previous section_
 ### 3A) Multi-map reads against a reference genome
 First you must unzip the gz assembly to an uncompressed version, as it appears this is required for hisat2-build.    
