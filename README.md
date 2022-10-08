@@ -20,6 +20,8 @@ Requires the following:
 `stringtie`     https://ccb.jhu.edu/software/stringtie/index.shtml    
 
 ## 00. Prepare data
+
+#### Prepare the read data
 Put raw fastq.gz single-end data in `02_raw_data`  
 Run all scripts from the main directory  
 
@@ -28,6 +30,25 @@ Quality check the data
 fastqc 02_raw_data/*.fastq.gz -o 02_raw_data/fastqc_raw/ -t 12
 multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
+
+#### Prepare the assembly
+Download the reference genome and copy it to `10_reference`, and prepare for alignment:         
+```
+# As an example, steps are done with the Pacific oyster genome here
+cp -l /scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna ./10_reference
+cp -l /scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.gff ./10_reference
+cp -l /scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.gtf ./10_reference
+
+# If you have the annotation information, extract splice-site and exon information using HISAT2 package
+extract_splice_sites.py ./10_reference/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.gtf > 10_reference/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.ss
+
+extract_exons.py ./10_reference/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.gtf > 10_reference/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.exon
+
+# Build HISAT2 index. Leave out options for splice-sites or exons if  you do not have a gtf yet
+hisat2-build --ss 10_reference/*.ss --exon 10_reference/*.exon 10_reference/GCF_902806645.1_*.fna 10_reference/GCF_902806645.1 
+
+```
+
 
 ### 01. Trim for quality and adaptors
 Per sample, trim for quality for SE or PE data. Edit the path to trimmomatic and run:        
@@ -73,7 +94,6 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 
 ## Using a reference genome 
 [if using a reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-transcriptome)
-_If using reference transcriptome use previous section_
 ### 3A) Multi-map reads against a reference genome
 First you must unzip the gz assembly to an uncompressed version, as it appears this is required for hisat2-build.    
 Once decompressed, index the reference genome with:      
