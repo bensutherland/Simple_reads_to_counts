@@ -8,14 +8,14 @@ TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
 # Copy script as it was run
 SCRIPT=$0
 NAME=$(basename $0)
-LOG_FOLDER="10_log_files"
+LOG_FOLDER="20_log_files"
 
 cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 
 # Global variables
 TRIMMED_FOLDER="03_trimmed"
 MAPPED_FOLDER="04_mapped"
-REFERENCE="/scratch2/bsutherland/ref_genomes/GCA_009026015.1_ASM902601v1_genomic.fna"
+REFERENCE="10_reference/GCF_902806645.1"
 
 # User variables
 NUM_THREADS="24"
@@ -32,10 +32,19 @@ ls -1 $TRIMMED_FOLDER/*.paired.fq.gz |
 	while read i
 	do
 	  echo $i
+
+	  # Set up read group IDs
 	  name=$(basename $i)
 	  label=$(echo $name)
 	  ID="@RG\tID:${label}\tSM:${label}\tPL:Illumina"
-	  hisat2 -x $REFERENCE -k 40 --threads $NUM_THREADS --rg-id $ID -1 $i"_R1.paired.fq.gz" -2 $i"_R2.paired.fq.gz" -S $i.hisat2.sam
+
+	  # Align reads against reference
+	  hisat2 -x $REFERENCE -k 40 --threads $NUM_THREADS \
+		  --rg-id $ID -1 \
+		  $i"_R1.paired.fq.gz" -2 $i"_R2.paired.fq.gz" \
+		  -S $i.hisat2.sam
+
+	  # Sort with samtools
 	  samtools view -Sb $i.hisat2.sam > $i.hisat2.unsorted.bam
 	  samtools sort -o $i.hisat2.sorted.bam $i.hisat2.unsorted.bam
 
