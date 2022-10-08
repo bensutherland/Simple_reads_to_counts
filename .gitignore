@@ -35,7 +35,7 @@ slurm-*
 clusters.txt
 counts.txt
 *.md5
-10_log_files/*
+20_log_files/*
 *.swp
 *.xprs
 *.csv
