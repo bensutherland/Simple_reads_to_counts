@@ -68,38 +68,40 @@ multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
 ```
 
 
-## Using a reference transcriptome
-[if using a reference genome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-genome)       
+### 02. Align against a reference transcriptome
+[OR if using a reference genome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-genome)       
 
-### 02.A. Multi-map reads against the reference transcriptome     
-#### Index
+#### 02.A. Multi-map reads against the reference transcriptome     
+*Index*          
 Update REFERENCE variable and index decompressed reference transcriptome with bowtie2.    
 `01_scripts/01_bowtie2_build.sh`       
 ...this only needs to be done once for a reference.      
 
-#### Align
+*Align*          
 Align each sample from `03_trimmed`, inserting read group IDs.    
 Using samtools, convert to .bam, sort, index, and delete .sam and unsorted .bam.    
 Single-end: `01_scripts/02_bowtie2_aln_SE.sh`       
 Paired-end: `01_scripts/02_bowtie2_aln_PE.sh`        
 
-### 2B) Quantify alignments using eXpress  
+#### 02.B. Quantify alignments using eXpress  
 Use the sorted bam files to quantify transcript abundances.       
 `01_scripts/03_express.sh`      
 
-### 2C) Extract effective counts from eXpress files into edgeR input
+#### 02.C. Extract effective counts from eXpress files into edgeR input
 Uses files `05_gx_levels/*.xprs`. Open the script `01_scripts/utility_scripts/prepare_gxlevels_matrix.R` in R and use interactively.   
 This will output a table entitled `out.matrix.csv`, which can be used as an input to edgeR.    
 
 
-## Using a reference genome 
-[if using a reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-transcriptome)
-### 3A. Multi-map reads against a reference genome
+### 03. Align against a reference genome 
+[OR if using reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-transcriptome)
+#### 3A. Multi-map reads against a reference genome
+*Index*       
 The genome should already be prepared as described [above](https://github.com/bensutherland/Simple_reads_to_counts#prepare-the-assembly).        
 
+*Align*            
 Align PE reads to the genome, convert to BAM, and sort:          
 `./01_scripts/02_hisat2_aln_PE_to_stringtie.sh`         
-Note: requires filenames in format of `_R[1|2].paired.fq.gz`        
+_Note: requires filenames in format of `_R[1|2].paired.fq.gz`_        
 
 ### 3B) Generate a reference and de novo gff using stringtie 
 #### 3B.i) Assemble transcript using a reference genome GTF as a guide
