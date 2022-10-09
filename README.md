@@ -69,7 +69,7 @@ multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
 
 
 ### 02. Align against a reference transcriptome
-[OR if using a reference genome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-genome)       
+[OR if using a reference genome](https://github.com/bensutherland/Simple_reads_to_counts#03-align-against-a-reference-genome)
 
 #### 02.A. Multi-map reads against the reference transcriptome     
 *Index*          
@@ -93,7 +93,8 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 
 
 ### 03. Align against a reference genome 
-[OR if using reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-transcriptome)
+[OR if using reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#02-align-against-a-reference-transcriptome)
+
 #### 3A. Multi-map reads against a reference genome
 *Index*       
 The genome should already be prepared as described [above](https://github.com/bensutherland/Simple_reads_to_counts#prepare-the-assembly).        
