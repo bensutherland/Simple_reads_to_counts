@@ -32,7 +32,7 @@ multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
 
 #### Prepare the assembly
-Download the reference genome and copy it to `10_reference`, and prepare for alignment:         
+Download the reference genome, if compressed decompress it, and copy it to `10_reference`, and prepare for alignment:         
 ```
 # As an example, steps are done with the Pacific oyster genome here
 cp -l /scratch2/bsutherland/ref_genomes/GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna ./10_reference
@@ -94,15 +94,12 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 
 ## Using a reference genome 
 [if using a reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#using-a-reference-transcriptome)
-### 3A) Multi-map reads against a reference genome
-First you must unzip the gz assembly to an uncompressed version, as it appears this is required for hisat2-build.    
-Once decompressed, index the reference genome with:      
-`hisat2-build -p 12 GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna GCF_902806645.1_cgigas_uk_roslin_v1_genomic.fna`             
+### 3A. Multi-map reads against a reference genome
+The genome should already be prepared as described [above](https://github.com/bensutherland/Simple_reads_to_counts#prepare-the-assembly).        
 
-Note: make sure to include the .fna in the 'base name' so that it will remain functional with subsequent scripts.    
-
-Use the script `01_scripts/02_hisat2_aln_PE_to_stringtie.sh` to align paired-end reads to the genome using hisat2, and sort the bam file with samtools. This will require that you update the user variable $REFERENCE with the full path and filename of the reference genome.     
-Note: this currently requires that your filenames end in `_R[1|2].paired.fq.gz`        
+Align PE reads to the genome, convert to BAM, and sort:          
+`./01_scripts/02_hisat2_aln_PE_to_stringtie.sh`         
+Note: requires filenames in format of `_R[1|2].paired.fq.gz`        
 
 ### 3B) Generate a reference and de novo gff using stringtie 
 #### 3B.i) Assemble transcript using a reference genome GTF as a guide
