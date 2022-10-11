@@ -104,8 +104,8 @@ Align PE reads to the genome, convert to BAM, and sort:
 `./01_scripts/02_hisat2_aln_PE_to_stringtie.sh`         
 _Note: requires filenames in format of `_R[1|2].paired.fq.gz`_        
 
-#### 3B. Generate a reference and de novo gff using stringtie 
-**Assemble transcripts per sample**         
+#### 3B. Generate a reference and de novo gff using StringTie 
+**Per sample, assemble transcripts based on BAM and ref GFF**         
 Note: the supplied GFF (if exists) should already be in your reference folder (see here)[https://github.com/bensutherland/Simple_reads_to_counts/blob/master/README.md#prepare-the-assembly].         
 
 Update the following script to the guiding GFF (if supplied with genome), and launch:         
@@ -114,16 +114,19 @@ Update the following script to the guiding GFF (if supplied with genome), and la
 For each sample, stringtie will assemble transcripts based on the reference genome annotation and will find novel transcripts (unannotated) in the reference genome.    
 
 
-**Prepare files for stringtie merge**        
-Create a `mergelist.txt` and save to `00_archive`. The mergelist will contain each sample's gtf filename (one file per line) using:        
+**Prepare mergelist for StringTie**        
+Generate `00_archive/mergelist.txt`, which includes each sample's GTF, one per line:          
 `01_scripts/03b_create_mergelist.sh`       
 
 
-#### 3B.iii) Merge transcripts from all samples, guided by the reference gff   
-Merge sample gtfs into a non-redundant, final merged gtf (i.e., `04_mapped/stringtie_merged.gtf`). Will use the reference genome as a guide to identify novel and known transcripts:        
+**StringTie merge**
+Merge reference GFF and per-sample GTFs into a final, non-redundant GTF (i.e., `04_mapped/stringtie_merged.gtf`).      
+Update to point to the reference GFF and launch:         
 `01_scripts/03c_stringtie_merge.sh`        
 
-#### 3B.iv) Run gffcompare to generate statistics based on your de novo and reference transcripts
+
+**Evaluate transcript/ gene assemblies**
+Run gffcompare to generate statistics based on your de novo and reference transcripts
 `./01_scripts/03d_gffcompare.sh`    
 
 
