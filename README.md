@@ -72,12 +72,12 @@ multiqc -o 03_trimmed/fastqc_trimmed 03_trimmed/fastqc_trimmed
 [OR if using a reference genome](https://github.com/bensutherland/Simple_reads_to_counts#03-align-against-a-reference-genome)
 
 #### 02.A. Multi-map reads against the reference transcriptome     
-*Index*          
+**Index**          
 Update REFERENCE variable and index decompressed reference transcriptome with bowtie2.    
 `01_scripts/01_bowtie2_build.sh`       
 ...this only needs to be done once for a reference.      
 
-*Align*          
+**Align**          
 Align each sample from `03_trimmed`, inserting read group IDs.    
 Using samtools, convert to .bam, sort, index, and delete .sam and unsorted .bam.    
 Single-end: `01_scripts/02_bowtie2_aln_SE.sh`       
@@ -96,24 +96,28 @@ This will output a table entitled `out.matrix.csv`, which can be used as an inpu
 [OR if using reference transcriptome](https://github.com/bensutherland/Simple_reads_to_counts#02-align-against-a-reference-transcriptome)
 
 #### 3A. Multi-map reads against a reference genome
-*Index*       
+**Index**       
 The genome should already be prepared as described [above](https://github.com/bensutherland/Simple_reads_to_counts#prepare-the-assembly).        
 
-*Align*            
+**Align**            
 Align PE reads to the genome, convert to BAM, and sort:          
 `./01_scripts/02_hisat2_aln_PE_to_stringtie.sh`         
 _Note: requires filenames in format of `_R[1|2].paired.fq.gz`_        
 
-### 3B) Generate a reference and de novo gff using stringtie 
-#### 3B.i) Assemble transcript using a reference genome GTF as a guide
-Download the reference genome GTF and GFF from NCBI, place in reference genome folder, and use gunzip to decompress both.     
-Update the script `01_scripts/03a_stringtie_bam_to_gtf.sh` to provide the full path to the gff.      
-Launch the script, which will use the sorted bam files and create a gtf for each bam file.        
+#### 3B. Generate a reference and de novo gff using stringtie 
+**Assemble transcripts per sample**         
+Note: the supplied GFF (if exists) should already be in your reference folder (see here)[https://github.com/bensutherland/Simple_reads_to_counts/blob/master/README.md#prepare-the-assembly].         
+
+Update the following script to the guiding GFF (if supplied with genome), and launch:         
+`01_scripts/03a_stringtie_bam_to_gtf.sh`         
+
 For each sample, stringtie will assemble transcripts based on the reference genome annotation and will find novel transcripts (unannotated) in the reference genome.    
 
-#### 3B.ii) Prepare necessary files for stringtie merge 
+
+**Prepare files for stringtie merge**        
 Create a `mergelist.txt` and save to `00_archive`. The mergelist will contain each sample's gtf filename (one file per line) using:        
 `01_scripts/03b_create_mergelist.sh`       
+
 
 #### 3B.iii) Merge transcripts from all samples, guided by the reference gff   
 Merge sample gtfs into a non-redundant, final merged gtf (i.e., `04_mapped/stringtie_merged.gtf`). Will use the reference genome as a guide to identify novel and known transcripts:        
