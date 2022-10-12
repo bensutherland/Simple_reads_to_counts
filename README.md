@@ -128,15 +128,17 @@ Update to point to the reference GFF and launch:
 **Evaluate transcript/ gene assemblies**
 Run gffcompare to generate statistics based on your de novo and reference transcripts
 `./01_scripts/03d_gffcompare.sh`    
+...the output will go to `04_mapped/gffcompare/merged.*`          
 
 
-### 4) Extract read counts from bam files using a gtf
-#### 4A) Extract read counts into ctab format with stringtie
-Estimate abundances with stringtie:        
+### 04. Extract feature counts from bam files using the GTF
+#### 4A. StringTie extract read counts into ctab format
+Estimate abundances with StringTie run with -e parameter:        
 `01_scripts/04_stringtie_estimate_abundances.sh`     
 Per sample, a folder will be created in `05_gx_levels` with a new .gtf and ctab files.       
+note: for more information, see [Using StringTie with DESeq2 and edgeR](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual#deseq) 
 
-#### 4B) Create sample list for extracting expression values
+#### 4B. Create sample list for extracting expression values
 Generate a text file with all sample names and relative paths:      
 `01_scripts/05_build_sample_lst.sh`      
 ...will output to `00_archive/sample_lst.txt`       
