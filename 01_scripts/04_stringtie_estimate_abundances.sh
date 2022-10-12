@@ -1,28 +1,18 @@
 #!/bin/bash
-# Use ref genome gtf to create known and unannotated output gtf for each sample
-# Note: Requires sorted .bam 
-TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
-
-# Copy script as it was run
-SCRIPT=$0
-NAME=$(basename $0)
-LOG_FOLDER="10_log_files"
-
-cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
+# Use GTF (created with known and novel features) to quantify expression using -e parameter
 
 # Global variables
 MAPPED_FOLDER="04_mapped"
-MERGED_GFF="stringtie_merged.gtf"
+MERGED_GFF="stringtie_merged.gtf" # this is the default name in the pipeline of the created GTF
 GXLEVELS_FOLDER="05_gx_levels"
-
 
 # User variables
 NUM_THREADS="12"
 
-# Run Stringtie 
+# Run StringTie on all samples in mapped folder, identified from generated GTFs 
 ls -1 $MAPPED_FOLDER/*.gtf |
         
-	# While identifying sample names, ignore the merged.gtf 
+	# Ignore the merged.gtf in sample name identification
 	grep -vE 'stringtie_merged.gtf' |
 	perl -pe 's/\.gtf//' |
 	sort -u |
@@ -33,10 +23,17 @@ ls -1 $MAPPED_FOLDER/*.gtf |
           # Generate basename
           name=$(basename $i)
           
-          # Make folders as it works
+          # Make folders per sample
           mkdir $GXLEVELS_FOLDER/$name
           
           # Run stringtie per sample to produce output gtf and ballgown tables
 	  stringtie -e -B -p $NUM_THREADS -G $MAPPED_FOLDER/$MERGED_GFF -o $GXLEVELS_FOLDER/$name/$name".gtf" $MAPPED_FOLDER/$name".hisat2.sorted.bam"
+
+          # -e only estimate the abundance of given reference transcripts (requires -G)
+          # -B enable output of Ballgown table files (in the same directory as the output GTF) (requires -G, -o recommended)
+          # -G <guide_gff>   reference annotation to include in the merging (GTF/GFF3)
+          # -o <out_gtf>     output file name for the merged transcripts GTF
+
+
 done
 
