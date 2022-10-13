@@ -1,37 +1,41 @@
 Simple reads to counts
 
 ### Disclaimer
-This pipeline is made available **with no waranty of usefulness of any kind**.  
-Purpose: Multi-map reads to a reference transcriptome or genome to quantified read counts.       
+This pipeline is made available **with no waranty of usefulness of any kind**.      
+Purpose: Multi-map reads to a reference transcriptome or genome to quantify read counts.       
+Run all scripts from the main directory.       
 
 ## Overview:
-  a) Remove adapters and trim for quality    
-  b) Multi-map reads against reference transcriptome or genome    
-  c) Use eXpress to estimate gene expression levels per transcript using 'effective counts'  
+  a) Remove adapters and trim for quality;    
+  b) Multi-map reads against reference transcriptome or genome;    
+  c) Estimate gene expression levels per gene or transcript for differential expression analysis.     
   
-The expression level data can be imported into differential expression analysis software (e.g. edgeR).  
+The pipeline currently prepares data for differential expression in edgeR, but the current pipeline does not describe the edgeR workflow, as this will be highly experiment specific.       
 
-Requires the following:  
+**Requires the following:**  
 `Trimmomatic`   http://www.usadellab.org/cms/?page=trimmomatic  
-`bowtie2`       http://bowtie-bio.sourceforge.net/bowtie2/index.shtml        
 `samtools`      http://samtools.sourceforge.net    
-`eXpress`       https://pachterlab.github.io/eXpress/index.html        
+
+Genome-based:     
 `hisat2`        https://ccb.jhu.edu/software/hisat2/index.shtml    
 `stringtie`     https://ccb.jhu.edu/software/stringtie/index.shtml    
 
-## 00. Prepare data
+Transcriptome based:      
+`bowtie2`       http://bowtie-bio.sourceforge.net/bowtie2/index.shtml        
+`eXpress`       https://pachterlab.github.io/eXpress/index.html        
 
+
+### 00. Prepare data
 #### Prepare the read data
-Put raw fastq.gz single-end data in `02_raw_data`  
-Run all scripts from the main directory  
+Put raw fastq.gz data in `02_raw_data`.        
 
-Quality check the data
+Raw data quality check:       
 ```
 fastqc 02_raw_data/*.fastq.gz -o 02_raw_data/fastqc_raw/ -t 12
 multiqc -o 02_raw_data/fastqc_raw/ 02_raw_data/fastqc_raw
 ```
 
-#### Prepare the assembly
+#### Genome-based: Prepare the assembly
 Download the reference genome, if compressed decompress it, and copy it to `10_reference`, and prepare for alignment:         
 ```
 # As an example, steps are done with the Pacific oyster genome here
@@ -49,13 +53,16 @@ hisat2-build --ss 10_reference/*.ss --exon 10_reference/*.exon 10_reference/GCF_
 
 ```
 
+#### Transcriptome-based: prepare the transcriptome
+_to be added_        
+
 
 ### 01. Trim for quality and adaptors
 Per sample, trim for quality for SE or PE data. Edit the path to trimmomatic and run:        
 Single-end: `01_scripts/01_trimming.sh`     
 Paired-end: `01_scripts/01_trimming_PE.sh`      
 
-Quality check the trimmed data     
+Trimmed data quality check:     
 ```
 ## PE only
 # Move singleton output aside, not to be used
@@ -138,16 +145,21 @@ Estimate abundances with StringTie run with -e parameter:
 Per sample, a folder will be created in `05_gx_levels` with a new .gtf and ctab files.       
 note: for more information, see [Using StringTie with DESeq2 and edgeR](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual#deseq) 
 
-#### 4B. Create sample list for extracting expression values
+
+#### 4B. Create sample and path list for extracting expression values
 Generate a text file with all sample names and relative paths:      
-`01_scripts/05_build_sample_lst.sh`      
-...will output to `00_archive/sample_lst.txt`       
+`01_scripts/05_build_sample_list.sh`      
+...will output to `00_archive/sample_list.txt`       
 
-#### 4C) Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
-Use `prepDE.py` script from stringtie to generate two csv files, which contain the count matrices for genes and transcripts, using coverage values from the output of `stringtie -e` command:      
+
+#### 4C. Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
+Use `prepDE.py` script from StringTie to generate count matrices for genes and transcripts based on the coverage values from the above:         
 `prepDE.py -i 00_archive/sample_list.txt -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 150`
-note: as needed, update the length flag with the average read length.      
+note: as needed, update the length flag with the average read length, which can be found from the multiQC output.      
 
+
+### Outputs of pipeline
+The main data outputs to use will be:      
 
 
 Next: gene expression analysis (edgeR or deseq2 instructions)     
