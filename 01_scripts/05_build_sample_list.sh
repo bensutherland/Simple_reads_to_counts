@@ -1,32 +1,18 @@
 #!/bin/bash
-# Build a sample list based on the nested folders produced by stringtie estimate abundances
-
-TIMESTAMP=$(date +%Y-%m-%d_%Hh%Mm%Ss)
-
-# Copy script as it was run
-SCRIPT=$0
-NAME=$(basename $0)
-LOG_FOLDER="10_log_files"
-
-cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
+# Build a file with sample names and paths
+#  will eventually be provided to prepDE.py for moving from StringTie to edgeR
 
 # Global variables
 MAPPED_FOLDER="04_mapped"
-MERGED_GFF="stringtie_merged.gtf"
 GXLEVELS_FOLDER="05_gx_levels"
 
-
-# User variables
-NUM_THREADS="6"
-
-# Run Stringtie 
+# Use the GTF filenames in the mapped folder to create a sample list
 ls -1 $MAPPED_FOLDER/*.gtf |
         grep -vE 'stringtie_merged.gtf' |
 	perl -pe 's/\.gtf//' |
 	sort -u |
 	while read i
 	do
-	  #echo $i
 
           # Generate basename
           name=$(basename $i)
