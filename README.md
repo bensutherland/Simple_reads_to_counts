@@ -111,6 +111,8 @@ Align PE reads to the genome, convert to BAM, and sort:
 `./01_scripts/02_hisat2_aln_PE_to_stringtie.sh`         
 _Note: requires filenames in format of `_R[1|2].paired.fq.gz`_        
 
+(experimental currently) If planning to identify novel transcripts (and known), follow section (3B). If planning to only use the known transcripts from a GFF, then use `01_scripts/04_ST_est_abund_known_only.sh`, pointing to the reference GTF or GFF, then skip ahead to section (4B).        
+
 #### 3B. Generate a reference and de novo gff using StringTie 
 **Per sample, assemble transcripts based on BAM and ref GFF**         
 Note: the supplied GFF (if exists) should already be in your reference folder (see here)[https://github.com/bensutherland/Simple_reads_to_counts/blob/master/README.md#prepare-the-assembly].         
