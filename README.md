@@ -149,6 +149,8 @@ note: for more information, see [Using StringTie with DESeq2 and edgeR](http://c
 
 
 #### 4B. Create sample and path list for extracting expression values
+Note: this step is only needed if you used StringTie to identify novel transcripts, and therefore have a gtf for each sample. If you simply used StringTie to extract known transcript abundances, then skip to prepDE.py step below.      
+
 Generate a text file with all sample names and relative paths:      
 `01_scripts/05_build_sample_list.sh`      
 ...will output to `00_archive/sample_list.txt`       
@@ -156,12 +158,17 @@ Generate a text file with all sample names and relative paths:
 
 #### 4C. Convert gene expression values from ctab format into a count matrix .csv file for edgeR 
 Use `prepDE.py` script from StringTie to generate count matrices for genes and transcripts based on the coverage values from the above:         
+If you created a sample list with per-sample GTF to find novel transcripts:         
 `prepDE.py -i 00_archive/sample_list.txt -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 150`
 note: as needed, update the length flag with the average read length, which can be found from the multiQC output.      
 
+If you did not search for novel transcripts, and therefore do not have per-sample GTFs:        
+`prepDE.py -i 05_gx_levels -g 05_gx_levels/gene_counts.csv -t 05_gx_levels/transcript_counts.csv --length 125`           
+
 
 ### Outputs of pipeline
-The main data outputs to use will be:      
-
+If using a reference genome, the main data outputs to use will be:     
+`05_gx_levels/gene_counts.csv`          
+`05_gx_levels/transcript_counts.csv`          
 
 Next: gene expression analysis (edgeR or deseq2 instructions)     
